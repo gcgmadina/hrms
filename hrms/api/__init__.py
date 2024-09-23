@@ -51,6 +51,7 @@ def get_current_employee_info() -> dict:
 			"company",
 			"reports_to",
 			"user_id",
+			"work_place",
 		],
 		as_dict=True,
 	)

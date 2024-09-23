@@ -6,16 +6,11 @@
 			<div class="font-medium text-sm text-gray-500 mt-1.5" v-if="lastLog">
 				Last {{ lastLogType }} was at {{ lastLogTime }}
 			</div>
-			<Button
-				class="mt-4 mb-1 drop-shadow-sm py-5 text-base"
-				id="open-checkin-modal"
-				@click="handleEmployeeCheckin"
-			>
+			<Button class="mt-4 mb-1 drop-shadow-sm py-5 text-base" id="open-checkin-modal"
+				@click="handleEmployeeCheckin">
 				<template #prefix>
-					<FeatherIcon
-						:name="nextAction.action === 'IN' ? 'arrow-right-circle' : 'arrow-left-circle'"
-						class="w-4"
-					/>
+					<FeatherIcon :name="nextAction.action === 'IN' ? 'arrow-right-circle' : 'arrow-left-circle'"
+						class="w-4" />
 				</template>
 				{{ nextAction.label }}
 			</Button>
@@ -26,13 +21,8 @@
 		</div>
 	</div>
 
-	<ion-modal
-		v-if="settings.data?.allow_employee_checkin_from_mobile_app"
-		ref="modal"
-		trigger="open-checkin-modal"
-		:initial-breakpoint="1"
-		:breakpoints="[0, 1]"
-	>
+	<ion-modal v-if="settings.data?.allow_employee_checkin_from_mobile_app" ref="modal" trigger="open-checkin-modal"
+		:initial-breakpoint="1" :breakpoints="[0, 1]">
 		<div class="h-120 w-full flex flex-col items-center justify-center gap-5 p-4 mb-5">
 			<div class="flex flex-col gap-1.5 mt-2 items-center justify-center">
 				<div class="font-bold text-xl">
@@ -49,16 +39,9 @@
 				</span>
 
 				<div class="rounded border-4 translate-z-0 block overflow-hidden w-full h-170">
-					<iframe
-						width="100%"
-						height="170"
-						frameborder="0"
-						scrolling="no"
-						marginheight="0"
-						marginwidth="0"
+					<iframe width="100%" height="170" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
 						style="border: 0"
-						:src="`https://maps.google.com/maps?q=${latitude},${longitude}&hl=en&z=15&amp;output=embed`"
-					>
+						:src="`https://maps.google.com/maps?q=${latitude},${longitude}&hl=en&z=15&amp;output=embed`">
 					</iframe>
 				</div>
 			</template>
@@ -74,6 +57,7 @@
 import { createResource, createListResource, toast, FeatherIcon } from "frappe-ui"
 import { computed, inject, ref, onMounted, onBeforeUnmount } from "vue"
 import { IonModal, modalController } from "@ionic/vue"
+import { checkinDistance } from '@/data/employee'
 
 const DOCTYPE = "Employee Checkin"
 
@@ -162,36 +146,48 @@ const handleEmployeeCheckin = () => {
 const submitLog = (logType) => {
 	const action = logType === "IN" ? "Check-in" : "Check-out"
 
-	checkins.insert.submit(
-		{
-			employee: employee.data.name,
-			log_type: logType,
-			time: checkinTimestamp.value,
-			latitude: latitude.value,
-			longitude: longitude.value,
-		},
-		{
-			onSuccess() {
-				modalController.dismiss()
-				toast({
-					title: "Success",
-					text: `${action} successful!`,
-					icon: "check-circle",
-					position: "bottom-center",
-					iconClasses: "text-green-500",
-				})
-			},
-			onError() {
-				toast({
-					title: "Error",
-					text: `${action} failed!`,
-					icon: "alert-circle",
-					position: "bottom-center",
-					iconClasses: "text-red-500",
-				})
-			},
-		}
-	)
+	checkinDistance(latitude.value, longitude.value, employee.data.work_place)
+		.then((data) => {
+			checkins.insert.submit(
+				{
+					employee: employee.data.name,
+					log_type: logType,
+					time: checkinTimestamp.value,
+					latitude: latitude.value,
+					longitude: longitude.value,
+				},
+				{
+					onSuccess() {
+						modalController.dismiss()
+						toast({
+							title: "Success",
+							text: `${action} successful!`,
+							icon: "check-circle",
+							position: "bottom-center",
+							iconClasses: "text-green-500",
+						})
+					},
+					onError() {
+						toast({
+							title: "Error",
+							text: `${action} failed!`,
+							icon: "alert-circle",
+							position: "bottom-center",
+							iconClasses: "text-red-500",
+						})
+					},
+				}
+			)
+		})
+		.catch((error) => {
+			toast({
+				title: "Error",
+				text: error,
+				icon: "alert-circle",
+				position: "bottom-center",
+				iconClasses: "text-red-500",
+			})
+		})
 }
 
 onMounted(() => {

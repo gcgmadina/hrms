@@ -10,3 +10,26 @@ export const employeeResource = createResource({
 		}
 	},
 })
+
+
+export function checkinDistance(lat, long, work_place) {
+	return new Promise((resolve, reject) => {
+		const resource = createResource({
+			url: "hrms.api.employee_checkin.checkin",
+			params: {
+				lat: lat,
+				long: long,
+				work_place: work_place,
+			},
+			transform(data) {
+				if (data.status == 'success') {
+					resolve(data)
+				} else {
+					reject(data)
+				}
+			}
+		})
+
+		resource.reload()
+	})
+}

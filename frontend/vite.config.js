@@ -10,6 +10,10 @@ export default defineConfig({
 	server: {
 		port: 8080,
 		proxy: getProxyOptions(),
+		https: {
+			key: fs.readFileSync('./ssl/localhost.key'),
+			cert: fs.readFileSync('./ssl/localhost.crt'),
+		},
 	},
 	plugins: [
 		vue(),
