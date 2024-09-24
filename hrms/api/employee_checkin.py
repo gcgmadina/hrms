@@ -155,3 +155,54 @@ def encode_face(face_image):
     except Exception as e:
         print(str(e))
         return None
+
+@frappe.whitelist()
+def compare_face(employee_id, image):
+    try:
+        # Decode base64 image yang dikirim dari frontend
+        image_data = base64.b64decode(image.split(',')[1])
+        np_img = np.frombuffer(image_data, dtype=np.uint8)
+        img = cv2.imdecode(np_img, flags=cv2.IMREAD_COLOR)
+
+        # Ambil encoding wajah yang tersimpan untuk karyawan dari database
+        employee = frappe.get_doc('Employee', employee_id)
+        registered_face_encoding = employee.face_encoding
+
+        if not registered_face_encoding:
+            return {"status": "failed", "message": "No face encoding registered for this employee."}
+
+        # Konversi encoding yang tersimpan dari JSON string menjadi array NumPy
+        registered_face_encoding = np.array(json.loads(registered_face_encoding))
+
+        # Deteksi wajah dari gambar baru
+        face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+        faces = face_cascade.detectMultiScale(img, 1.1, 4)
+
+        if len(faces) == 0:
+            return {"status": "failed", "message": "No face detected."}
+
+        for (x, y, w, h) in faces:
+            # Potong dan resize wajah yang terdeteksi untuk encoding
+            face = img[y:y+h, x:x+w]
+            face_resized = cv2.resize(face, (150, 150))
+
+            # Encode wajah baru menggunakan face_recognition
+            face_encoding = encode_face(face_resized)
+
+            if face_encoding is None:
+                return {"status": "failed", "message": "Failed to encode face."}
+
+            # Bandingkan encoding wajah baru dengan yang tersimpan
+            import face_recognition
+            print("Registered face encoding:", registered_face_encoding)
+            matches = face_recognition.compare_faces([registered_face_encoding], face_encoding, tolerance=0.4)
+            print("Match:", matches[0])
+
+            if matches[0]:
+                return {"status": "success", "message": True}
+            else:
+                return {"status": "success", "message": False}
+
+    except Exception as e:
+        print(str(e))
+        return {"status": "error", "message": str(e)}

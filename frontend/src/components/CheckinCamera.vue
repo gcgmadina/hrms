@@ -10,13 +10,14 @@
 <script setup>
 import { ref, onMounted, inject } from 'vue'
 import * as faceapi from 'face-api.js'
-import { saveFaceData, checkIfFaceDataExists } from '@/data/employee'
+import { saveFaceData, checkIfFaceDataExists, compareFace } from '@/data/employee'
 
 const video = ref(null)
 const canvas = ref(null)
 const videoStream = ref(null)
 const status = ref('Initializing camera...')
 const employee = inject('$employee')
+const emit = defineEmits(['matchedValue', 'statusValue']);
 
 const loadModels = async () => {
     const MODEL_URL = '/models'
@@ -75,19 +76,31 @@ const checkEmployeeFace = async () => {
 
         if (!hasFaceData) {
             // Simpan data wajah karyawan jika belum ada encoding
-            console.log('Saving face data...')
-            saveFaceData(employee.data.name, frame)
-                .then(() => {
-                    console.log('Face data saved')
-                    status.value = 'Face data saved.'
-                })
-                .catch((error) => {
-                    console.error('Error saving face data:', error)
-                    status.value = 'Error saving face data.'
-                })
-            console.log('Face data saved')
-        } else {
-            console.log('Face data exists')
+            try {
+                console.log('Saving face data...')
+                await saveFaceData(employee.data.name, frame)
+                console.log('Face data saved')
+            } catch (error) {
+                console.error('Error saving face data:', error)
+                status.value = 'Error saving face data.'
+            }
+        }
+        
+        try {
+            const matched = await compareFace(employee.data.name, frame)
+            if (matched) {
+                status.value = 'Face matched. Check-in successful.'
+                emit('matchedValue', true)
+                emit('statusValue', status.value)
+            } else {
+                status.value = 'Face not matched. Check-in failed. Retrying...'
+                emit('matchedValue', false)
+                emit('statusValue', status.value)
+                requestAnimationFrame(checkEmployeeFace) // Lakukan deteksi wajah secara berkala
+            }
+        } catch (error) {
+            console.error('Error comparing face:', error)
+            status.value = 'Error comparing face.'
         }
     } else {
         status.value = 'Face not detected, retrying...'

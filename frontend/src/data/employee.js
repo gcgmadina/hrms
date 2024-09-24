@@ -79,3 +79,24 @@ export function saveFaceData(empID, image) {
 		resource.reload()
 	})
 }
+
+export function compareFace(emp_id, img) {
+	return new Promise((resolve, reject) => {
+		const resource = createResource({
+			url: "hrms.api.employee_checkin.compare_face",
+			params: {
+				employee_id: emp_id,
+				image: img,
+			},
+			transform(data) {
+				if (data.status == 'success') {
+					resolve(data.message)
+				} else {
+					reject(data)
+				}
+			}
+		})
+
+		resource.reload()
+	})
+}
