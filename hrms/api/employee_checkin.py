@@ -5,6 +5,10 @@ from frappe.model.workflow import get_workflow_name
 from frappe.query_builder import Order
 from frappe.utils import getdate, strip_html
 import math
+import cv2
+import base64
+import numpy as np
+import json
 
 def haversine(lat1, lon1, lat2, lon2):
     # Radius bumi dalam kilometer
@@ -67,3 +71,87 @@ def checkin(lat, long, work_place):
             "status": "error",
             "message": str(e)
         }
+
+@frappe.whitelist()
+def get_face_encode(employee_id):
+    try:
+        emp_face_encode = frappe.get_value("Employee", employee_id, "face_encoding")
+        if emp_face_encode:
+            return {
+                "status": "success",
+                "message": "Face encode found",
+                "data": emp_face_encode
+            }
+        else:
+            return {
+                "status": "success",
+                "message": "Face encode not found",
+                "data": None
+            }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }
+
+@frappe.whitelist()
+def register_face(employee_id, image):
+    try:
+        # Decode base64 image
+        image_data = base64.b64decode(image.split(',')[1])
+        np_img = np.frombuffer(image_data, dtype=np.uint8)
+        img = cv2.imdecode(np_img, flags=cv2.IMREAD_COLOR)  # Jangan ubah menjadi grayscale
+
+        # Deteksi wajah menggunakan HaarCascade
+        face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+        faces = face_cascade.detectMultiScale(img, 1.1, 4)
+
+        if len(faces) == 0:
+            return {"status": "failed", "message": "No face detected."}
+
+        temp = None
+
+        for (x, y, w, h) in faces:
+            # Potong wajah dari gambar
+            face = img[y:y+h, x:x+w]
+
+            # Resize wajah untuk meningkatkan akurasi encoding jika perlu
+            face_resized = cv2.resize(face, (150, 150))  # Resize jika perlu
+
+            # Encode wajah menggunakan face_recognition
+            face_encoding = encode_face(face_resized)
+
+            if face_encoding is not None:
+                temp = face_encoding
+                print("Face encoding:", face_encoding)
+
+                # Simpan encoding wajah ke dokumen karyawan
+                employee = frappe.get_doc('Employee', employee_id)
+
+                # Ubah face_encoding menjadi list atau string untuk menyimpannya
+                employee.face_encoding = json.dumps(face_encoding.tolist())  # Simpan sebagai JSON string
+                employee.save(ignore_permissions=True)
+            else:
+                return {"status": "failed", "message": "Face encoding failed."}
+
+        return {
+            "status": "success",
+            "message": temp
+        }
+    except Exception as e:
+        print(str(e))
+        return {"status": "error", "message": str(e)}
+
+def encode_face(face_image):
+    try:
+        import face_recognition
+        face_encoding = face_recognition.face_encodings(face_image)
+
+        if face_encoding:
+            print(f"Face encoding berhasil: {face_encoding[0]}")
+        else:
+            print("Gagal melakukan encoding wajah.")
+        return face_encoding[0] if face_encoding else None
+    except Exception as e:
+        print(str(e))
+        return None

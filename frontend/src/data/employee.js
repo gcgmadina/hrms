@@ -33,3 +33,49 @@ export function checkinDistance(lat, long, work_place) {
 		resource.reload()
 	})
 }
+
+export function checkIfFaceDataExists(empID) {
+	return new Promise((resolve, reject) => {
+		const resource = createResource({
+			url: "hrms.api.employee_checkin.get_face_encode",
+			method: "GET",
+			params: {
+				employee_id: empID,
+			},
+			transform(data) {
+				if (data.status == 'success') {
+					if (!data.data)
+						resolve(false)
+					else
+						resolve(true)
+				} else {
+					reject(data.message)
+				}
+			}
+		})
+
+		resource.reload()
+	})
+}
+
+export function saveFaceData(empID, image) {
+	return new Promise((resolve, reject) => {
+		const resource = createResource({
+			url: "hrms.api.employee_checkin.register_face",
+			params: {
+				employee_id: empID,
+				image: image,
+			},
+			transform(data) {
+				if (data.status == 'success') {
+					console.log(data)
+					resolve(data)
+				} else {
+					reject(data)
+				}
+			}
+		})
+
+		resource.reload()
+	})
+}

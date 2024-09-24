@@ -12,6 +12,11 @@ const routes = [
 		redirect: "/home",
 	},
 	{
+		path: "/camera",
+		name: "Camera",
+		component: () => import("@/components/CheckinCamera.vue"),
+	},
+	{
 		path: "/",
 		component: TabbedView,
 		children: [
