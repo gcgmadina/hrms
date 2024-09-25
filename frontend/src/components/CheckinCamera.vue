@@ -17,7 +17,7 @@ const canvas = ref(null)
 const videoStream = ref(null)
 const status = ref('Initializing camera...')
 const employee = inject('$employee')
-const emit = defineEmits(['matchedValue', 'statusValue']);
+const emit = defineEmits(['checkinData', 'matchedValue', 'statusValue']);
 
 const loadModels = async () => {
     const MODEL_URL = '/models'
