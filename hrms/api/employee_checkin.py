@@ -36,37 +36,24 @@ def haversine(lat1, lon1, lat2, lon2):
 @frappe.whitelist()
 def checkin(lat, long, work_place):
     try:
-        print("Latitude: ", lat)
-        print("Longitude: ", long)
-
         lat = float(lat)
         long = float(long)
 
-        print("Latitude: ", lat)
-        print("Longitude: ", long)
-
         address_lat, address_long, max_dist = frappe.get_value("Address", work_place, ["latitude", "longitude", "attendance_maximum_distance"])
-
-        print("Address Latitude: ", address_lat)
-        print("Address Longitude: ", address_long)
         
         distance = haversine(address_lat, address_long, lat, long)
 
         if distance > max_dist:
-            print("You are too far from the work place")
-            print("Distance: ", distance)
             return {
                 "status": "error",
                 "message": "You are too far from the work place"
             }
         else:
-            print("You are checked in successfully")
             return {
                 "status": "success",
                 "message": "You are checked in successfully"
             }
     except Exception as e:
-        print(str(e))
         return {
             "status": "error",
             "message": str(e)
@@ -123,7 +110,6 @@ def register_face(employee_id, image):
 
             if face_encoding is not None:
                 temp = face_encoding
-                print("Face encoding:", face_encoding)
 
                 # Simpan encoding wajah ke dokumen karyawan
                 employee = frappe.get_doc('Employee', employee_id)
@@ -139,7 +125,6 @@ def register_face(employee_id, image):
             "message": temp
         }
     except Exception as e:
-        print(str(e))
         return {"status": "error", "message": str(e)}
 
 def encode_face(face_image):
@@ -147,13 +132,8 @@ def encode_face(face_image):
         import face_recognition
         face_encoding = face_recognition.face_encodings(face_image)
 
-        if face_encoding:
-            print(f"Face encoding berhasil: {face_encoding[0]}")
-        else:
-            print("Gagal melakukan encoding wajah.")
         return face_encoding[0] if face_encoding else None
     except Exception as e:
-        print(str(e))
         return None
 
 @frappe.whitelist()
@@ -194,9 +174,7 @@ def compare_face(employee_id, image):
 
             # Bandingkan encoding wajah baru dengan yang tersimpan
             import face_recognition
-            print("Registered face encoding:", registered_face_encoding)
             matches = face_recognition.compare_faces([registered_face_encoding], face_encoding, tolerance=0.4)
-            print("Match:", matches[0])
 
             if matches[0]:
                 return {"status": "success", "message": True}
@@ -204,5 +182,4 @@ def compare_face(employee_id, image):
                 return {"status": "success", "message": False}
 
     except Exception as e:
-        print(str(e))
         return {"status": "error", "message": str(e)}

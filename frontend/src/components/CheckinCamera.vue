@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h2>Employee Face Check</h2>
+        <!-- <h2>Employee Face Check</h2> -->
         <video ref="video" autoplay></video>
         <canvas ref="canvas" style="display: none;"></canvas>
-        <p v-if="status">{{ status }}</p>
+        <!-- <p v-if="status">{{ status }}</p> -->
     </div>
 </template>
 
@@ -26,7 +26,6 @@ const loadModels = async () => {
         await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL)
         await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL)
 
-        console.log('Models loaded successfully')
         status.value = 'Models loaded successfully.'
     } catch (error) {
         console.error('Error loading models:', error)
@@ -45,7 +44,6 @@ const startCamera = async () => {
 
         // Tambahkan listener untuk memastikan video siap
         video.value.addEventListener('loadedmetadata', () => {
-            console.log('Camera stream loaded')
             status.value = 'Camera started. Detecting face...'
             checkEmployeeFace()  // Mulai deteksi wajah setelah video siap
         })
@@ -68,7 +66,6 @@ const checkEmployeeFace = async () => {
     const faceDetected = await detectFace()
 
     if (faceDetected) {
-        console.log('Face detected')
         const frame = captureFrame()
 
         // Cek apakah sudah ada data encoding wajah untuk karyawan ini
@@ -77,9 +74,7 @@ const checkEmployeeFace = async () => {
         if (!hasFaceData) {
             // Simpan data wajah karyawan jika belum ada encoding
             try {
-                console.log('Saving face data...')
                 await saveFaceData(employee.data.name, frame)
-                console.log('Face data saved')
             } catch (error) {
                 console.error('Error saving face data:', error)
                 status.value = 'Error saving face data.'
@@ -90,17 +85,16 @@ const checkEmployeeFace = async () => {
             const matched = await compareFace(employee.data.name, frame)
             if (matched) {
                 status.value = 'Face matched. Check-in successful.'
-                emit('matchedValue', true)
-                emit('statusValue', status.value)
+                emit('checkinData', { matchedValue: true, statusValue: status.value });
             } else {
                 status.value = 'Face not matched. Check-in failed. Retrying...'
-                emit('matchedValue', false)
-                emit('statusValue', status.value)
+                emit('checkinData', { matchedValue: false, statusValue: status.value });
                 requestAnimationFrame(checkEmployeeFace) // Lakukan deteksi wajah secara berkala
             }
         } catch (error) {
             console.error('Error comparing face:', error)
             status.value = 'Error comparing face.'
+            requestAnimationFrame(checkEmployeeFace) // Lakukan deteksi wajah secara berkala
         }
     } else {
         status.value = 'Face not detected, retrying...'
@@ -112,7 +106,6 @@ const detectFace = async () => {
     try {
         if (video.value.readyState === 4) {  // Memastikan video siap diproses
             const detections = await faceapi.detectAllFaces(video.value, new faceapi.TinyFaceDetectorOptions())
-            console.log('Detections:', detections)
 
             if (detections.length > 0) {
                 status.value = 'Face detected'
@@ -122,7 +115,6 @@ const detectFace = async () => {
                 return false
             }
         } else {
-            console.log('Video not ready')
             return false
         }
     } catch (error) {

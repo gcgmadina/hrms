@@ -46,7 +46,11 @@
 				</div>
 			</template>
 
-			<Button variant="solid" class="w-full py-5 text-sm" @click="submitLog(nextAction.action)">
+			<!-- <Button variant="solid" class="w-full py-5 text-sm" @click="submitLog(nextAction.action)">
+				Confirm {{ nextAction.label }}
+			</Button> -->
+
+			<Button variant="solid" class="w-full py-5 text-sm" @click="openCameraModal">
 				Confirm {{ nextAction.label }}
 			</Button>
 		</div>
@@ -58,6 +62,7 @@ import { createResource, createListResource, toast, FeatherIcon } from "frappe-u
 import { computed, inject, ref, onMounted, onBeforeUnmount } from "vue"
 import { IonModal, modalController } from "@ionic/vue"
 import { checkinDistance } from '@/data/employee'
+import CheckinCamera from "./CheckinCamera.vue"
 
 const DOCTYPE = "Employee Checkin"
 
@@ -143,51 +148,90 @@ const handleEmployeeCheckin = () => {
 	}
 }
 
+const openCameraModal = async () => {
+	try {
+		const data = await checkinDistance(latitude.value, longitude.value, employee.data.work_place);
+		await modalController.dismiss(); // Tutup modal yang ada sebelumnya
+
+		const modal = await modalController.create({
+			component: CheckinCamera,
+			componentProps: {
+				onCheckinData: handleCheckinData,
+			}
+		});
+
+		await modal.present(); // Tampilkan modal baru
+
+		toast({
+			title: "Geofencing Success",
+			text: "Face detection started",
+			icon: "check-circle",
+			position: "bottom-center",
+			iconClasses: "text-green-500",
+		});
+	} catch (error) {
+		toast({
+			title: "Error",
+			text: error.message,
+			icon: "alert-circle",
+			position: "bottom-center",
+			iconClasses: "text-red-500",
+		});
+	}
+};
+
+const handleCheckinData = ({ matchedValue, statusValue }) => {
+
+	if (matchedValue) {
+		submitLog(nextAction.value.action);
+		modalController.dismiss(); // Tutup modal jika matchedValue bernilai true
+	} else {
+		// Lakukan sesuatu jika wajah tidak terdeteksi
+		toast({
+			title: "Failed",
+			text: statusValue,
+			icon: "alert-circle",
+			position: "bottom-center",
+			iconClasses: "text-red-500",
+		});
+	}
+
+	// Lakukan sesuatu dengan statusValue jika diperlukan
+};
+
 const submitLog = (logType) => {
 	const action = logType === "IN" ? "Check-in" : "Check-out"
 
-	checkinDistance(latitude.value, longitude.value, employee.data.work_place)
-		.then((data) => {
-			checkins.insert.submit(
-				{
-					employee: employee.data.name,
-					log_type: logType,
-					time: checkinTimestamp.value,
-					latitude: latitude.value,
-					longitude: longitude.value,
-				},
-				{
-					onSuccess() {
-						modalController.dismiss()
-						toast({
-							title: "Success",
-							text: `${action} successful!`,
-							icon: "check-circle",
-							position: "bottom-center",
-							iconClasses: "text-green-500",
-						})
-					},
-					onError() {
-						toast({
-							title: "Error",
-							text: `${action} failed!`,
-							icon: "alert-circle",
-							position: "bottom-center",
-							iconClasses: "text-red-500",
-						})
-					},
-				}
-			)
-		})
-		.catch((error) => {
-			toast({
-				title: "Error",
-				text: error,
-				icon: "alert-circle",
-				position: "bottom-center",
-				iconClasses: "text-red-500",
-			})
-		})
+	checkins.insert.submit(
+		{
+			employee: employee.data.name,
+			log_type: logType,
+			time: checkinTimestamp.value,
+			latitude: latitude.value,
+			longitude: longitude.value,
+		},
+		{
+			onSuccess() {
+				modalController.dismiss()
+				toast({
+					title: "Success",
+					text: `${action} successful!`,
+					icon: "check-circle",
+					position: "bottom-center",
+					iconClasses: "text-green-500",
+				})
+			},
+			onError() {
+				toast({
+					title: "Error",
+					text: `${action} failed!`,
+					icon: "alert-circle",
+					position: "bottom-center",
+					iconClasses: "text-red-500",
+				})
+			},
+		}
+	)
 }
 
 onMounted(() => {
