@@ -345,3 +345,25 @@ override_doctype_dashboards = {
 # Recommended only for DocTypes which have limited documents with untranslated names
 # For example: Role, Gender, etc.
 # translated_search_doctypes = []
+
+fixtures = [
+    {
+        "doctype": "Custom Field",
+        "filters": [["name", "in", (
+            "Address-custom_latitude",
+            "Address-custom_longitude",
+            "Employee-custom_work_place",
+            "Address-custom_attendance_maximum_distance",
+            "Employee-custom_face_encode"
+        )]]
+	},
+    {
+        "doctype": "Employee",
+        "filters": [["name", "in", (
+            "HR-EMP-00001",
+			"HR-EMP-00002",
+			"HR-EMP-00003",
+			"HR-EMP-00004"
+		)]]
+	}
+]
