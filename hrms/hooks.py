@@ -346,6 +346,12 @@ override_doctype_dashboards = {
 # For example: Role, Gender, etc.
 # translated_search_doctypes = []
 
+website_route_rules = [{'from_route': '/hrms/<path:app_path>', 'to_route': 'hrms'}]
+
+website_redirects = [
+    {"source": "/", "target": "/hrms/"},
+]
+
 fixtures = [
     {
         "doctype": "Custom Field",
@@ -364,6 +370,15 @@ fixtures = [
 			"HR-EMP-00002",
 			"HR-EMP-00003",
 			"HR-EMP-00004"
+		)]]
+	},
+    {
+        "doctype": "User",
+        "filters": [["name", "in", (
+			"salman@email.com",
+            "damai@email.com",
+            "akmal@email.com",
+            "faruq@email.com"
 		)]]
 	}
 ]
