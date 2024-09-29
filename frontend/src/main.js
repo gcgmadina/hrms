@@ -135,7 +135,8 @@ router.beforeEach(async (to, _, next) => {
 			!employeeResource?.data ||
 			employeeResource?.data?.user_id !== userResource.data.name
 		) {
-			next({ name: "InvalidEmployee" })
+			// next({ name: "InvalidEmployee" })
+			window.location.href = "/app"
 		} else if (to.name === "Login") {
 			next({ name: "Home" })
 		} else {
