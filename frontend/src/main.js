@@ -93,6 +93,7 @@ const registerServiceWorker = async () => {
 
 router.isReady().then(() => {
 	if (import.meta.env.DEV) {
+		app.provide("$models_url", "/models")
 		frappeRequest({
 			url: "/api/method/hrms.www.hrms.get_context_for_dev",
 		}).then((values) => {
@@ -102,6 +103,7 @@ router.isReady().then(() => {
 			app.mount("#app")
 		})
 	} else {
+		app.provide("$models_url", "/assets/hrms/frontend/models")
 		registerServiceWorker()
 		app.mount("#app")
 	}

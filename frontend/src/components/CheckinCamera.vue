@@ -20,7 +20,7 @@ const employee = inject('$employee')
 const emit = defineEmits(['checkinData', 'matchedValue', 'statusValue']);
 
 const loadModels = async () => {
-    const MODEL_URL = '/models'
+    const MODEL_URL = inject('$models_url')
     try {
         await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL)
         await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL)
