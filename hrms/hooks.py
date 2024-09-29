@@ -364,21 +364,16 @@ fixtures = [
         )]]
 	},
     {
-        "doctype": "Employee",
+        "doctype": "User",
         "filters": [["name", "in", (
-            "HR-EMP-00001",
-			"HR-EMP-00002",
-			"HR-EMP-00003",
-			"HR-EMP-00004"
+			"hr_manager@manusa.com"
 		)]]
 	},
     {
-        "doctype": "User",
-        "filters": [["name", "in", (
-			"salman@email.com",
-            "damai@email.com",
-            "akmal@email.com",
-            "faruq@email.com"
-		)]]
+        "doctype": "Custom DocPerm",
+        "filters": [['parent', '=', 'User'], ['role', '=', 'HR Manager']]
+	},
+    {
+        "doctype": "Workspace"
 	}
 ]
