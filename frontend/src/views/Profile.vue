@@ -95,6 +95,30 @@
 							</div>
 						</div>
 
+						<!-- change-password -->
+						<div class="flex flex-col gap-5 my-4 w-full">
+							<div class="flex flex-col bg-white rounded">
+								<div class="flex flex-row cursor-pointer flex-start p-4 items-center justify-between border-b"
+									@click="openChangePasswordModal"
+								>
+								
+									<div class="flex flex-row items-center gap-3 grow">
+										<FeatherIcon
+											name="lock"
+											class="h-5 w-5 text-gray-500"
+										/>
+										<div class="text-base font-normal text-gray-800">
+											Change Password
+										</div>
+									</div>
+									<FeatherIcon
+										name="chevron-right"
+										class="h-5 w-5 text-gray-500"
+									/>
+								</div>
+							</div>
+						</div>
+
 						<Button
 							@click="logout"
 							variant="outline"
@@ -132,6 +156,31 @@
 					"
 				/>
 			</ion-modal>
+
+			<!-- modal to change password -->
+			<ion-modal
+				ref="changePasswordModal"
+				:is-open="isChangePasswordModalOpen"
+				@didDismiss="closeChangePasswordModal"
+				:initial-breakpoint="1"
+				:breakpoints="[0, 1]"
+			>
+				<form class="flex flex-col space-y-4 p-4" @submit.prevent="changePassword">
+					<ion-input v-model="old_password" label-placement="floating" label="Old Password" type="password">
+					</ion-input>
+					<ion-input v-model="new_password" label-placement="floating" label="New Password" type="password">
+					</ion-input>
+					<ion-input v-model="confirm_password" label-placement="floating" label="Confirm Password" type="password">
+					</ion-input>
+					<ion-button 
+						color="dark"
+						expand="block"
+						type="submit"
+					>
+						Change Password
+					</ion-button>
+				</form>
+			</ion-modal>
 		</ion-content>
 	</ion-page>
 </template>
@@ -139,8 +188,8 @@
 <script setup>
 import { computed, inject, ref, onMounted, onBeforeUnmount } from "vue"
 import { useRouter } from "vue-router"
-import { IonModal, IonPage, IonContent } from "@ionic/vue"
-import { FeatherIcon, createDocumentResource, createResource } from "frappe-ui"
+import { IonModal, IonPage, IonContent, IonList, IonItem, IonInput, IonButton } from "@ionic/vue"
+import { FeatherIcon, createDocumentResource, createResource, toast } from "frappe-ui"
 
 import { showErrorAlert } from "@/utils/dialogs"
 import { formatCurrency } from "@/utils/formatters"
@@ -148,6 +197,8 @@ import { formatCurrency } from "@/utils/formatters"
 import ProfileInfoModal from "@/components/ProfileInfoModal.vue"
 
 import { arePushNotificationsEnabled } from "@/data/notifications"
+
+import { updatePassword } from "@/data/user"
 
 const DOCTYPE = "Employee"
 
@@ -253,6 +304,59 @@ const getFieldInfo = (fieldname) => {
 		(field) => field.fieldname === fieldname
 	)
 	return [field?.label, field?.fieldtype]
+}
+
+const isChangePasswordModalOpen = ref(false)
+const old_password = ref("")
+const new_password = ref("")
+const confirm_password = ref("")
+
+const openChangePasswordModal = () => {
+	isChangePasswordModalOpen.value = true
+}
+
+const closeChangePasswordModal = () => {
+	isChangePasswordModalOpen.value = false
+}
+
+const changePassword = async () => {
+	if (!old_password.value || !new_password.value || !confirm_password.value) {
+		toast({
+			title: "All fields are required!",
+			text: "Please fill in all the fields.",
+			icon: "alert-circle",
+			position: "bottom-center",
+			iconClasses: "text-green-500",
+		})
+		return
+	}
+
+	if (new_password.value !== confirm_password.value) {
+		toast({
+			title: "Passwords do not match!",
+			text: "Please ensure that the new password and confirm password match.",
+			icon: "alert-circle",
+			position: "bottom-center",
+			iconClasses: "text-green-500",
+		})
+		return
+	}
+
+	try {
+		await updatePassword(new_password.value, old_password.value)
+		toast({
+			title: "Success",
+			text: "Password updated successfully!",
+			icon: "check-circle",
+			position: "bottom-center",
+			iconClasses: "text-green-500",
+		})
+		closeChangePasswordModal()
+	} catch (e) {
+		const msg = "An error occurred while updating the password!"
+		console.error(msg, e)
+		showErrorAlert(msg)
+	}
 }
 
 const logout = async () => {
