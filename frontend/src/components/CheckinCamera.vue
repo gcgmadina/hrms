@@ -1,9 +1,17 @@
 <template>
     <div>
-        <!-- <h2>Employee Face Check</h2> -->
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 bg-white p-2 rounded shadow-md text-center z-10">
+            <p>{{ faceDetected ? 'Face Detected' : 'Face Not Detected' }}</p>
+        </div>
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 bg-white p-2 rounded shadow-md text-center z-10">
+            <p>{{ status }}</p>
+        </div>
+        
         <video ref="video" autoplay></video>
         <canvas ref="canvas" style="display: none;"></canvas>
-        <!-- <p v-if="status">{{ status }}</p> -->
+
+        <div class="absolute top-1/2 left-1/2 w-96 h-96 border-4 border-green-500 transform -translate-x-1/2 -translate-y-1/2 shadow-lg pointer-events-none"></div>
+
     </div>
 </template>
 
@@ -16,6 +24,7 @@ const video = ref(null)
 const canvas = ref(null)
 const videoStream = ref(null)
 const status = ref('Initializing camera...')
+const faceDetected = ref(false)
 const employee = inject('$employee')
 const emit = defineEmits(['checkinData', 'matchedValue', 'statusValue']);
 
@@ -93,7 +102,7 @@ const checkEmployeeFace = async () => {
             }
         } catch (error) {
             console.error('Error comparing face:', error)
-            status.value = 'Error comparing face.'
+            status.value = 'Move Your Face Closer'
             requestAnimationFrame(checkEmployeeFace) // Lakukan deteksi wajah secara berkala
         }
     } else {
@@ -108,10 +117,12 @@ const detectFace = async () => {
             const detections = await faceapi.detectAllFaces(video.value, new faceapi.TinyFaceDetectorOptions())
 
             if (detections.length > 0) {
-                status.value = 'Face detected'
+                // status.value = 'Face detected'
+                faceDetected.value = true
                 return true
             } else {
-                status.value = 'No face detected'
+                // status.value = 'No face detected'
+                faceDetected.value = false
                 return false
             }
         } else {

@@ -185,16 +185,7 @@ const handleCheckinData = ({ matchedValue, statusValue }) => {
 	if (matchedValue) {
 		submitLog(nextAction.value.action);
 		modalController.dismiss(); // Tutup modal jika matchedValue bernilai true
-	} else {
-		// Lakukan sesuatu jika wajah tidak terdeteksi
-		toast({
-			title: "Failed",
-			text: statusValue,
-			icon: "alert-circle",
-			position: "bottom-center",
-			iconClasses: "text-red-500",
-		});
-	}
+	} 
 
 	// Lakukan sesuatu dengan statusValue jika diperlukan
 };

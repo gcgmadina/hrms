@@ -4,6 +4,7 @@ from frappe.model import get_permitted_fields
 from frappe.model.workflow import get_workflow_name
 from frappe.query_builder import Order
 from frappe.utils import getdate, strip_html
+from frappe.sessions import clear_sessions
 
 SUPPORTED_FIELD_TYPES = [
 	"Link",
@@ -649,3 +650,12 @@ def get_allowed_states_for_workflow(workflow: dict, user_id: str) -> list[str]:
 @frappe.whitelist()
 def get_permitted_fields_for_write(doctype: str) -> list[str]:
 	return get_permitted_fields(doctype, permission_type="write")
+
+@frappe.whitelist(allow_guest=True)
+def logout(user):
+    a = frappe.db.sql("""select *from `tabUser` where name=%s""", user)
+    if not a:
+        return "user not exist"
+    
+    clear_sessions(user, keep_current=False, device='desktop', force=True)
+    return _("Logged out successfully")
