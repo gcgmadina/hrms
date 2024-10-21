@@ -9,6 +9,7 @@ import cv2
 import base64
 import numpy as np
 import json
+import ipaddress
 
 def haversine(lat1, lon1, lat2, lon2):
     # Radius bumi dalam kilometer
@@ -182,4 +183,21 @@ def compare_face(employee_id, image):
                 return {"status": "success", "message": False}
 
     except Exception as e:
+        return {"status": "error", "message": str(e)}
+    
+@frappe.whitelist()
+def check_wifi_connection(employee, ip):
+    try:
+        work_place = frappe.get_value("Employee", employee, "work_place")
+        ip_network = frappe.get_value("Address", work_place, "wifi_network")
+
+        print("ip_network: " , ip_network)
+        print("ip: ", ip)
+
+        if ip == ip_network:
+            return {"status": "success", "data": True}
+        else:
+            return {"status": "success", "data": False}
+    except Exception as e:
+        print(e)
         return {"status": "error", "message": str(e)}

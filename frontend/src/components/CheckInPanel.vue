@@ -33,7 +33,7 @@
 				</div>
 			</div>
 
-			<template v-if="settings.data?.allow_geolocation_tracking">
+			<template v-if="settings.data?.allow_geolocation_tracking && !connectWifi">
 				<span v-if="locationStatus" class="font-medium text-gray-500 text-sm">
 					{{ locationStatus }}
 				</span>
@@ -63,6 +63,7 @@ import { computed, inject, ref, onMounted, onBeforeUnmount } from "vue"
 import { IonModal, modalController } from "@ionic/vue"
 import { checkinDistance } from '@/data/employee'
 import CheckinCamera from "./CheckinCamera.vue"
+import { checkWifiConnection } from '@/data/attendance'
 
 const DOCTYPE = "Employee Checkin"
 
@@ -73,6 +74,7 @@ const checkinTimestamp = ref(null)
 const latitude = ref(0)
 const longitude = ref(0)
 const locationStatus = ref("")
+const connectWifi = ref(false)
 
 const settings = createResource({
 	url: "hrms.api.get_hr_settings",
@@ -140,17 +142,44 @@ const fetchLocation = () => {
 	}
 }
 
-const handleEmployeeCheckin = () => {
-	checkinTimestamp.value = dayjs().format("YYYY-MM-DD HH:mm:ss")
-
-	if (settings.data?.allow_geolocation_tracking) {
-		fetchLocation()
-	}
+async function getPublicIP() {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        console.log('IP Public Anda:', data.ip);
+        return data.ip;
+    } catch (error) {
+        console.error('Gagal mendapatkan IP:', error);
+        return null;
+    }
 }
+
+const handleEmployeeCheckin = async () => {
+    checkinTimestamp.value = dayjs().format("YYYY-MM-DD HH:mm:ss");
+
+    try {
+        const user_ip = await getPublicIP(); // Tunggu hasil IP sebelum melanjutkan
+        const response = await checkWifiConnection(employee.data.name, user_ip); // Tunggu hasil dari checkWifiConnection
+        console.log(user_ip);
+        connectWifi.value = response;
+
+        // Jika geolocation diizinkan dan tidak tersambung ke WiFi
+        if (settings.data?.allow_geolocation_tracking && !connectWifi.value) {
+            fetchLocation();
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 
 const openCameraModal = async () => {
 	try {
-		const data = await checkinDistance(latitude.value, longitude.value, employee.data.work_place);
+		// console.log(connectWifi.value);
+		if (!connectWifi.value) {
+			const data = await checkinDistance(latitude.value, longitude.value, employee.data.work_place);
+			
+		}
 		await modalController.dismiss(); // Tutup modal yang ada sebelumnya
 
 		const modal = await modalController.create({
