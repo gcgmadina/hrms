@@ -360,7 +360,8 @@ fixtures = [
             "Address-custom_longitude",
             "Employee-custom_work_place",
             "Address-custom_attendance_maximum_distance",
-            "Employee-custom_face_encode"
+            "Employee-custom_face_encode",
+            "Address-custom_wifi_ip"
         )]]
 	},
     {
