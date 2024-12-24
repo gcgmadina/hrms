@@ -7,7 +7,7 @@
 				Last {{ lastLogType }} was at {{ lastLogTime }}
 			</div>
 			<Button class="mt-4 mb-1 drop-shadow-sm py-5 text-base" id="open-checkin-modal"
-				@click="handleEmployeeCheckin">
+				@click="handleEmployeeCheckin (false)">
 				<template #prefix>
 					<FeatherIcon :name="nextAction.action === 'IN' ? 'arrow-right-circle' : 'arrow-left-circle'"
 						class="w-4" />
@@ -190,10 +190,8 @@ const handleEmployeeCheckin = async (wfh = false) => {
     try {
 		if (!wfh) {
 			const user_ip = await getPublicIP(); // Tunggu hasil IP sebelum melanjutkan
-			console.log(user_ip);
 			const response = await checkWifiConnection(employee.data.name, user_ip); // Tunggu hasil dari checkWifiConnection
 			connectWifi.value = response;
-			console.log(connectWifi.value)
 		}
 
         // Jika geolocation diizinkan dan tidak tersambung ke WiFi

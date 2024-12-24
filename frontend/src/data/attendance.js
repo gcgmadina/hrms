@@ -11,10 +11,8 @@ export function checkWifiConnection (emp_id, ip_address) {
             },
             transform(data) {
                 if (data.status == 'success') {
-                    console.log(data)
                     resolve(data.data)
                 } else {
-                    console.log(data)
                     reject(data.data)
                 }
             }
