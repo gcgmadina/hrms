@@ -53,6 +53,7 @@ def get_current_employee_info() -> dict:
 			"reports_to",
 			"user_id",
 			"work_place",
+			"allow_work_from_home"
 		],
 		as_dict=True,
 	)

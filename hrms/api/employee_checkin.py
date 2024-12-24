@@ -55,6 +55,12 @@ def checkin(lat, long, work_place):
                 "message": "You are checked in successfully"
             }
     except Exception as e:
+        error_message = str(e)
+        if "cannot unpack non-iterable NoneType object" in error_message:
+            return {
+                "status": "error",
+                "message": "Workplace has not been set. Please ask your HR to assign your workplace."
+            }
         return {
             "status": "error",
             "message": str(e)
