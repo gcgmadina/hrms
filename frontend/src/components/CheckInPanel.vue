@@ -14,6 +14,14 @@
 				</template>
 				{{ nextAction.label }}
 			</Button>
+			<Button v-if="employee.data?.allow_work_from_home" class="mt-4 mb-1 drop-shadow-sm py-5 text-base" 
+				id="open-wfh-modal" @click="handleEmployeeCheckin (true)">
+				<template #prefix>
+					<FeatherIcon :name="nextAction.action === 'IN' ? 'arrow-right-circle' : 'arrow-left-circle'"
+						class="w-4" />
+				</template>
+				{{ nextAction.label }} (WFH)
+			</Button>
 		</template>
 
 		<div v-else class="font-medium text-sm text-gray-500 mt-1.5">
@@ -53,6 +61,28 @@
 			<Button variant="solid" class="w-full py-5 text-sm" @click="openCameraModal">
 				Confirm {{ nextAction.label }}
 			</Button>
+		</div>
+	</ion-modal>
+
+	<ion-modal v-if="settings.data?.allow_employee_checkin_from_mobile_app" ref="modal" trigger="open-wfh-modal"
+		:initial-breakpoint="1" :breakpoints="[0, 1]">
+		<div class="h-120 w-full flex flex-col items-center justify-center gap-5 p-4 mb-5">
+			<div class="flex flex-col gap-1.5 mt-2 items-center justify-center">
+				<div class="font-bold text-xl">
+					{{ dayjs(checkinTimestamp).format("hh:mm:ss a") }}
+				</div>
+				<div class="font-medium text-gray-500 text-sm">
+					{{ dayjs().format("D MMM, YYYY") }}
+				</div>
+			</div>
+
+			<Button variant="solid" class="w-full py-5 text-sm" @click="submitLog(nextAction.action)">
+				Confirm {{ nextAction.label }}
+			</Button>
+
+			<!-- <Button variant="solid" class="w-full py-5 text-sm" @click="openCameraModal">
+				Confirm {{ nextAction.label }}
+			</Button> -->
 		</div>
 	</ion-modal>
 </template>
@@ -154,17 +184,20 @@ async function getPublicIP() {
     }
 }
 
-const handleEmployeeCheckin = async () => {
+const handleEmployeeCheckin = async (wfh = false) => {
     checkinTimestamp.value = dayjs().format("YYYY-MM-DD HH:mm:ss");
 
     try {
-        const user_ip = await getPublicIP(); // Tunggu hasil IP sebelum melanjutkan
-        const response = await checkWifiConnection(employee.data.name, user_ip); // Tunggu hasil dari checkWifiConnection
-        console.log(user_ip);
-        connectWifi.value = response;
+		if (!wfh) {
+			const user_ip = await getPublicIP(); // Tunggu hasil IP sebelum melanjutkan
+			console.log(user_ip);
+			const response = await checkWifiConnection(employee.data.name, user_ip); // Tunggu hasil dari checkWifiConnection
+			connectWifi.value = response;
+			console.log(connectWifi.value)
+		}
 
         // Jika geolocation diizinkan dan tidak tersambung ke WiFi
-        if (settings.data?.allow_geolocation_tracking && !connectWifi.value) {
+        if (settings.data?.allow_geolocation_tracking && !connectWifi.value && !wfh) {
             fetchLocation();
         }
     } catch (error) {

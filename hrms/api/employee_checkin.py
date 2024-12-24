@@ -197,6 +197,9 @@ def check_wifi_connection(employee, ip):
         work_place = frappe.get_value("Employee", employee, "work_place")
         ip_network = frappe.get_value("Address", work_place, "wifi_network")
 
+        if (ip_network == None):
+            return {"status": "success", "data": False}
+
         print("ip_network: " , ip_network)
         print("ip: ", ip)
 
