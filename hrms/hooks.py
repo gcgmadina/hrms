@@ -361,7 +361,9 @@ fixtures = [
             "Employee-custom_work_place",
             "Address-custom_attendance_maximum_distance",
             "Employee-custom_face_encode",
-            "Address-custom_wifi_ip"
+            "Address-custom_wifi_ip",
+            "Employee-custom_work_from_home_setting",
+            "Employee-custom_allow_work_from_home"
         )]]
 	},
     {
