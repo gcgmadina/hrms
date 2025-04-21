@@ -45,7 +45,7 @@
   "logout_all_sessions": 1,
   "middle_name": null,
   "mobile_no": null,
-  "modified": "2024-09-30 04:08:56.854591",
+  "modified": "2025-04-21 14:54:41.958928",
   "module_profile": null,
   "mute_sounds": 0,
   "name": "hr_manager@manusa.com",
@@ -71,7 +71,7 @@
     "role": "HR User"
    }
   ],
-  "search_bar": 0,
+  "search_bar": 1,
   "send_me_a_copy": 0,
   "send_welcome_email": 0,
   "simultaneous_sessions": 2,
