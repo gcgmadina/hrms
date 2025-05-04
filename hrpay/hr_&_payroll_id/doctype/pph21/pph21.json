@@ -1,0 +1,85 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-30 17:36:17.050010",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "id",
+  "full_name",
+  "marital_status",
+  "dependents_count",
+  "taxable_income",
+  "tax_amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "marital_status",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Marital Status",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dependents_count",
+   "fieldtype": "Int",
+   "label": "Dependents Count",
+   "options": "automated fetch from Employee ID"
+  },
+  {
+   "fieldname": "taxable_income",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Taxable Income",
+   "options": "based on attendance and structure",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tax_amount",
+   "fieldtype": "Currency",
+   "label": "PPh21 Amount",
+   "options": "automated fetch from Taxable Income"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-04-30 17:47:19.315808",
+ "modified_by": "Administrator",
+ "module": "HR & Payroll ID",
+ "name": "PPh21",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

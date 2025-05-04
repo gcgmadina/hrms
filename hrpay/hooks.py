@@ -5,6 +5,7 @@ app_description = "HR and Payroll Management"
 app_email = "afifah@email.com"
 app_license = "MIT"
 
+
 # Includes in <head>
 # ------------------
 

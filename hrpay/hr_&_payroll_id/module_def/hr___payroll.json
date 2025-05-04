@@ -1,0 +1,8 @@
+{
+    "app_name": "hrpay",
+    "app_label": "HR & Payroll ID",
+    "module_name": "HR & Payroll ID",
+    "doctype": "Module Def",
+    "name": "HR & Payroll ID"
+  }
+  
