@@ -1,5 +1,5 @@
 app_name = "hrpay"
-app_title = "Manusa"
+app_title = "HR & Payroll ID"
 app_publisher = "vyfa"
 app_description = "HR and Payroll Management"
 app_email = "afifah@email.com"
