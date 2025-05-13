@@ -3,12 +3,12 @@
     <h2 class="logo">HR App</h2>
     <nav class="menu">
       <ul>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Employee</a></li>
-        <li><a href="#">Attendance</a></li>
-        <li><a href="#">Leave Request</a></li>
-        <li><a href="#">Payroll</a></li>
-        <li><a href="#">User</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/employees">Employee</a></li>
+        <li><a href="/attendance">Attendance</a></li>
+        <li><a href="/leave_request">Leave Request</a></li>
+        <li><a href="/payroll">Payroll</a></li>
+        <li><a href="/user">User</a></li>
         <li class="spacer"></li>
         <li><a href="#">Profile</a></li>
         <li><button class="logout">Logout</button></li>

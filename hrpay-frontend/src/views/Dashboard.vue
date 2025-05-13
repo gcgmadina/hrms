@@ -1,7 +1,5 @@
 <template>
-  <AttendanceChart />
-  <i data-feather="calendar"></i>
-
+ 
   <div class="dashboard">
     <Sidebar />
     <div class="main">
@@ -62,8 +60,8 @@ import javascript from 'highlight.js/lib/languages/javascript'
 import * as showdown from 'showdown';
 
 // Register language
-hljs.registerLanguage('javascript', javascript)
-import feather from 'feather-icons';
+// hljs.registerLanguage('javascript', javascript)
+// import feather from 'feather-icons';
 
 const pendingLeaves = ref([])
 
@@ -80,8 +78,8 @@ const pendingLeaveResource = createResource({
 })
 
 onMounted(() => {
-  pendingLeaveResource.fetch(),
-  feather.replace()
+  pendingLeaveResource.fetch()
+  // feather.replace()
 })
 
 export default {

@@ -17,7 +17,11 @@
   "department",
   "sallary_structure",
   "cost_to_company",
-  "employment_type"
+  "employment_type",
+  "user_name",
+  "email",
+  "password",
+  "role_profile"
  ],
  "fields": [
   {
@@ -93,14 +97,39 @@
    "fieldname": "tariff_pph21",
    "fieldtype": "Data",
    "label": "PPh21 Tariff"
+  },
+  {
+   "fieldname": "user_name",
+   "fieldtype": "Data",
+   "label": "User Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "E-mail",
+   "reqd": 1
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Data",
+   "label": "Password",
+   "reqd": 1
+  },
+  {
+   "fieldname": "role_profile",
+   "fieldtype": "Link",
+   "label": "Role Profile",
+   "options": "Role Profile",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-01 14:21:44.361702",
+ "modified": "2025-05-13 18:04:55.873851",
  "modified_by": "Administrator",
  "module": "HR & Payroll ID",
- "name": "Employe ID",
+ "name": "Employee ID",
  "owner": "Administrator",
  "permissions": [
   {

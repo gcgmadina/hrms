@@ -36,7 +36,6 @@ const leaveRequests = ref([])
 
 const leaveRequestResource = createResource({
   url: 'hrpay.api.leave.get_leave_requests', // ganti sesuai endpoint kamu
-  auto: true,
   method: 'GET',
   transform(data) {
     leaveRequests.value = data
