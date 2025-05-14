@@ -81,10 +81,10 @@ const summaryFilter = ref('Tahun')
 const currentView = ref(null)
 
 const menu = [
-  { label: 'Riwayat Periode', component: 'PeriodHistory' },
+  { label: 'Riwayat Periode', component: 'PayPeriode' },
   { label: 'Komponen Gaji', component: 'SalaryComponent' },
   { label: 'Struktur Gaji', component: 'SalaryStructure' },
-  { label: 'Riwayat Slip Gaji', component: 'SalarySlipHistory' },
+  { label: 'Riwayat Slip Gaji', component: 'SalarySlip' },
   { label: 'Incentives', component: 'SalaryComponent' } // dipakai komponen yg sama
 ]
 

@@ -7,7 +7,7 @@
         <li><a href="/employees">Employee</a></li>
         <li><a href="/attendance">Attendance</a></li>
         <li><a href="/leave_request">Leave Request</a></li>
-        <li><a href="/payroll">Payroll</a></li>
+        <li><a href="../components/payroll/PayrollHist.vue">Payroll</a></li>
         <li><a href="/user">User</a></li>
         <li class="spacer"></li>
         <li><a href="#">Profile</a></li>

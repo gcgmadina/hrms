@@ -45,7 +45,7 @@ export default defineConfig({
       compiler: 'vue3',
     }),
   ], optimizeDeps: {
-    include: ['showdown'],    include: ['highlight.js']
+    include: ['showdown','highlight.js']
 
   }
 
