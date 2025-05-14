@@ -1,55 +1,89 @@
 <template>
   <aside class="sidebar">
-    <h2 class="logo">HR App</h2>
-    <nav class="menu">
-      <ul>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/employees">Employee</a></li>
-        <li><a href="/attendance">Attendance</a></li>
-        <li><a href="/leave_request">Leave Request</a></li>
-        <li><a href="../components/payroll/PayrollHist.vue">Payroll</a></li>
-        <li><a href="/user">User</a></li>
-        <li class="spacer"></li>
-        <li><a href="#">Profile</a></li>
-        <li><button class="logout">Logout</button></li>
-      </ul>
-    </nav>
+    <h2>Menu</h2>
+    <ul>
+      <li><router-link to="/dashboard">📊 Dashboard</router-link></li>
+      <li><router-link to="/employees">👥 Karyawan</router-link></li>
+      <li><router-link to="/attendance">📅 Attendance</router-link></li>
+      <li><router-link to="/leave-requests">📝 Leave Request</router-link></li>
+      <li><router-link to="/payroll">💰 Payroll</router-link></li>
+      <li><router-link to="/setup-user">⚙️ Setup User</router-link></li>
+    </ul>
+      <!-- Komponen Setup Perusahaan -->
+    <CompanySetup />
+
+    <!-- Profil Pengguna di Paling Bawah -->
+    <div class="user-profile">
+      <!-- <img :src="user.profilePicture" alt="Profile Picture" class="profile-pic" /> -->
+      <div class="user-info">
+        <p>{{ user.name }}</p>
+        <span>{{ user.role }}</span>
+      </div>
+    </div>
   </aside>
 </template>
 
+<script setup>
+import CompanySetup from "../components/CompanySetup.vue";
+
+const user = {
+  name: "HR Manager",
+  role: "HR",
+  // profilePicture: "https://your-image-url.com/hr-profile.jpg" // Ganti dengan URL foto profil dari database
+};
+</script>
+
 <style scoped>
 .sidebar {
-  width: 220px;
-  background-color: #2c3e50;
+  width: 250px;
+  background: #2c3e50;
   color: white;
-  height: 100vh;
   padding: 20px;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.logo {
-  margin-bottom: 20px;
-  font-size: 20px;
+.sidebar h2 {
+  text-align: center;
 }
-.menu ul {
+.sidebar ul {
   list-style: none;
   padding: 0;
 }
-.menu li {
-  margin: 10px 0;
+.sidebar ul li {
+  margin: 15px 0;
 }
-.menu a {
+.sidebar ul li a {
   color: white;
   text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
 }
-.spacer {
-  margin-top: 100px;
+.sidebar ul li a:hover {
+  text-decoration: underline;
 }
-.logout {
-  background-color: #e74c3c;
-  color: white;
-  padding: 8px;
-  border: none;
-  width: 100%;
-  cursor: pointer;
+
+/* Profil Pengguna */
+.user-profile {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #34495e;
+  border-radius: 10px;
+}
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.user-info p {
+  font-size: 16px;
+  font-weight: bold;
+}
+.user-info span {
+  font-size: 14px;
+  color: #bdc3c7;
 }
 </style>

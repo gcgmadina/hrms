@@ -1,109 +1,123 @@
 <template>
-  <div class="pph21-view p-4">
-    <h1 class="text-2xl font-semibold mb-4">Pengaturan PPH21</h1>
+  <div>
+    <h2>Manajemen PPh 21</h2>
 
-    <!-- Tarif Umum -->
-    <section class="mb-6">
-      <h2 class="text-xl font-medium mb-2">Tarif Umum</h2>
-      <table class="w-full border">
-        <thead>
-          <tr class="bg-gray-100">
-            <th class="text-left p-2 border">Batas Bawah</th>
-            <th class="text-left p-2 border">Batas Atas</th>
-            <th class="text-left p-2 border">Persentase (%)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(tarif, index) in tarifUmum" :key="index">
-            <td class="p-2 border">{{ tarif.min_income }}</td>
-            <td class="p-2 border">{{ tarif.max_income }}</td>
-            <td class="p-2 border">{{ tarif.percentage }}%</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <!-- Form Penambahan Kategori -->
+    <KategoriForm @kategoriAdded="addKategori" />
 
-    <!-- Kategori TK/K -->
-    <section class="mb-6">
-      <div class="flex items-center justify-between mb-2">
-        <h2 class="text-xl font-medium">Kategori TK/K</h2>
-        <button @click="addCategory" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-          Tambah Kategori
-        </button>
-      </div>
-      <table class="w-full border">
-        <thead>
-          <tr class="bg-gray-100">
-            <th class="text-left p-2 border">Kode</th>
-            <th class="text-left p-2 border">Jumlah Tanggungan</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(kat, index) in kategoriTK" :key="index">
-            <td class="p-2 border">{{ kat.kode }}</td>
-            <td class="p-2 border">{{ kat.tanggungan }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <!-- Form Penambahan Tarif PTKP -->
+    <PTKPForm @ptkpAdded="addPTKP" />
 
-    <!-- Tombol tambah tarif -->
-    <div class="text-right">
-      <button @click="addTarif" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-        Tambah Tarif
-      </button>
-    </div>
+    <!-- Form Penambahan Tarif PKP -->
+    <PKPForm @pkpAdded="addPKP" />
+
+    <!-- Tabel Data Kategori -->
+    <h3>Daftar Kategori</h3>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Kode</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in kategoriList" :key="index">
+          <td>{{ item.nama }}</td>
+          <td>{{ item.kode }}</td>
+          <td>
+            <button @click="deleteKategori(index)">Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Tabel Data Tarif PTKP -->
+    <h3>Daftar Tarif PTKP</h3>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Kategori</th>
+          <th>Tanggungan</th>
+          <th>Range Penghasilan</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in ptkpList" :key="index">
+          <td>{{ item.kategori }}</td>
+          <td>{{ item.tanggungan }}</td>
+          <td>Rp{{ formatCurrency(item.min) }} - Rp{{ formatCurrency(item.max) }}</td>
+          <td>
+            <button @click="deletePTKP(index)">Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Tabel Data Tarif PKP -->
+    <h3>Daftar Tarif PKP</h3>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Range PKP</th>
+          <th>Tarif Pajak</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in pkpList" :key="index">
+          <td>Rp{{ formatCurrency(item.min) }} - Rp{{ formatCurrency(item.max) }}</td>
+          <td>{{ item.tarif }}%</td>
+          <td>
+            <button @click="deletePKP(index)">Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
-import frappeCall from "@/utils/frappeCall";
+import KategoriForm from "./KategoriForm.vue";
+import PTKPForm from "./PTKPForm.vue";
+import PKPForm from "./PKPForm.vue";
 
 export default {
+  components: {
+    KategoriForm,
+    PTKPForm,
+    PKPForm,
+  },
   data() {
     return {
-      tarifUmum: [],
-      kategoriTK: []
+      kategoriList: [],
+      ptkpList: [],
+      pkpList: [],
     };
   },
-  async mounted() {
-    await this.fetchTarif();
-    await this.fetchKategori();
-  },
   methods: {
-    async fetchTarif() {
-      try {
-        const res = await frappeCall("hrpay.api.pph21.get_tarif_umum");
-        this.tarifUmum = res.message || [];
-      } catch (err) {
-        console.error("Gagal fetch tarif:", err);
-      }
+    addKategori(newKategori) {
+      this.kategoriList.push(newKategori);
     },
-    async fetchKategori() {
-      try {
-        const res = await frappeCall("hrpay.api.pph21.get_kategori_tk");
-        this.kategoriTK = res.message || [];
-      } catch (err) {
-        console.error("Gagal fetch kategori:", err);
-      }
+    deleteKategori(index) {
+      this.kategoriList.splice(index, 1);
     },
-    addCategory() {
-      console.log("Tambah kategori diklik");
-      // buka komponen atau form nanti
+    addPTKP(newPTKP) {
+      this.ptkpList.push(newPTKP);
     },
-    addTarif() {
-      console.log("Tambah tarif diklik");
-      // buka komponen atau form nanti
-    }
-  }
+    deletePTKP(index) {
+      this.ptkpList.splice(index, 1);
+    },
+    addPKP(newPKP) {
+      this.pkpList.push(newPKP);
+    },
+    deletePKP(index) {
+      this.pkpList.splice(index, 1);
+    },
+    formatCurrency(value) {
+      return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(value);
+    },
+  },
 };
 </script>
-
-<style scoped>
-table {
-  border-collapse: collapse;
-}
-th, td {
-  border: 1px solid #ccc;
-}
-</style>

@@ -1,22 +1,31 @@
 <template>
   <header class="navbar">
-    <input type="text" placeholder="Cari..." class="search-input" />
+    <input type="text" placeholder="Cari..." v-model="searchQuery" @input="handleSearch" />
   </header>
 </template>
 
+<script setup>
+import { ref } from "vue";
+
+const searchQuery = ref("");
+
+const handleSearch = () => {
+  console.log("Pencarian:", searchQuery.value);
+  // Tambahkan logika pencarian di sini
+};
+</script>
+
 <style scoped>
 .navbar {
-  height: 60px;
-  background-color: white;
+  background: #34495e;
+  padding: 10px;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 20px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  justify-content: center;
 }
-.search-input {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.navbar input {
+  width: 300px;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
 }
 </style>
