@@ -35,6 +35,8 @@
 </template>
 
 <script setup>
+import CompanySetup from "../components/CompanySetup.vue";
+
 const user = {
   name: "HR Manager",
   role: "HR",
