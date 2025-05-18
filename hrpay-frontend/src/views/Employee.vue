@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <h1>Employee List</h1>
-    <EmployeeList />
-    <button @click="showForm = true">Add New Employee</button>
-    <EmployeeForm v-if="showForm" @close="showForm = false" @added="refreshList" />
-  </div>
+  <layout>
+    <div>
+      <h1>Employee</h1>
+      <EmployeeList ref="employeeList" />
+    </div>
+  </layout>
 </template>
 
 <script>
 import EmployeeList from "../components/EmployeeList.vue";
-import EmployeeForm from "../components/EmployeeForm.vue";
+import Layout from "../components/Layout.vue";
 
 export default {
-  components: { EmployeeList, EmployeeForm },
-  data() {
-    return {
-      showForm: false
-    };
+  components: {
+    EmployeeList,
+    Layout
   },
   methods: {
     refreshList() {
@@ -25,3 +23,17 @@ export default {
   }
 };
 </script>
+
+<style>
+div {
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+</style>

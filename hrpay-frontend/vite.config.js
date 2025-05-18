@@ -4,10 +4,11 @@ import path from 'path'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
+  import frappeui from 'frappe-ui/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  // plugins: [vue()],
+  plugins: [frappeui(),vue()],
 
   
    server: {
@@ -35,20 +36,15 @@ export default defineConfig({
     },
   },plugins: [vue(),
     Components({
-      resolvers: [
-        IconsResolver({
-          prefix: 'Icon',
-        }),
-      ],
+      
     }),
     Icons({
       compiler: 'vue3',
     }),
-  ], optimizeDeps: {
-    include: ['showdown','highlight.js']
+  ], 
 
-  }
-
-
+  optimizeDeps: {
+    include: ['frappe-ui > feather-icons', 'showdown', 'engine.io-client'],
+  },
 
 })

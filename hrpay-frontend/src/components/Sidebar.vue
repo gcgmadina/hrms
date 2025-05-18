@@ -10,7 +10,7 @@
       <li><router-link to="/setup-user">⚙️ Setup User</router-link></li>
     </ul>
       <!-- Komponen Setup Perusahaan -->
-    <CompanySetup />
+    <!-- <CompanySetup /> -->
 
     <!-- Profil Pengguna di Paling Bawah -->
     <div class="user-profile">
@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import CompanySetup from "../components/CompanySetup.vue";
+// import CompanySetup from "../components/CompanySetup.vue";
 
 const user = {
   name: "HR Manager",
@@ -36,7 +36,7 @@ const user = {
 <style scoped>
 .sidebar {
   width: 250px;
-  background: #2c3e50;
+  background: #007bff;
   color: white;
   padding: 20px;
   display: flex;

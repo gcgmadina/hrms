@@ -1,9 +1,8 @@
 <template>
- 
   <div class="dashboard">
-    <Sidebar />
+    <Sidebar v-if="$route.path !== '/form'"/>
     <div class="main">
-      <Navbar />
+      <Navbar v-if="$route.path !== '/form'"/>
       <div class="content">
         
         <div class="cards">
@@ -13,10 +12,9 @@
           <div class="card red">Tidak Hadir<br /><strong>6</strong></div>
         </div>
 
-     
         <div class="bottom-section">
           <div class="box">Statistik Kehadiran</div>
-           
+           <AttendanceChart/>
           <div class="box">
             <h3>Pengajuan Izin</h3>
             <table>
@@ -55,13 +53,6 @@ import Navbar from '../components/Navbar.vue'
 import AttendanceChart from '../components/AttendanceChart.vue'
 import { ref, onMounted } from 'vue'
 import { createResource } from 'frappe-ui'
-import * as hljs from 'highlight.js/lib/core'
-import javascript from 'highlight.js/lib/languages/javascript'
-import * as showdown from 'showdown';
-
-// Register language
-// hljs.registerLanguage('javascript', javascript)
-// import feather from 'feather-icons';
 
 const pendingLeaves = ref([])
 

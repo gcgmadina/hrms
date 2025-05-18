@@ -24,7 +24,7 @@
     <select v-model="newDependent.relationship">
       <option value="anak">Anak</option>
       <option value="istri">Istri</option>
-      <option value="lainnta">Lainnya</option>
+      <option value="lainnya">Lainnya</option>
     </select>
     <button @click="addDependent">Tambah</button>
   </div>
@@ -55,3 +55,49 @@ export default {
   },
 };
 </script>
+
+<style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+}
+
+button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #c0392b;
+}
+
+input, select {
+  padding: 8px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+</style>

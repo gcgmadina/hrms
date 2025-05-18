@@ -18,13 +18,13 @@ const handleSearch = () => {
 <style scoped>
 .navbar {
   background: #34495e;
-  padding: 10px;
+  padding: 15px;
   display: flex;
-  justify-content: center;
+  justify-content: right;
 }
 .navbar input {
   width: 300px;
-  padding: 8px;
+  padding: 10px;
   border-radius: 5px;
   border: none;
 }

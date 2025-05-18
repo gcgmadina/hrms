@@ -1,27 +1,27 @@
 <template>
   <div class="payroll-page p-4 grid grid-cols-12 gap-4">
     <!-- Sidebar -->
-    <div class="col-span-3 space-y-2">
-      <div class="bg-white rounded-2xl p-4 shadow">
+    <div class="col-span-3 space-y-4">
+      <div class="flat-card p-4">
         <div class="font-semibold">Periode:</div>
         <div class="flex justify-between items-center mt-2">
           <div>{{ selectedPeriod }}</div>
-          <button @click="openPeriodModal" class="text-green-600 font-bold">＋</button>
+          <button @click="openPeriodModal" class="flat-btn">＋</button>
         </div>
       </div>
 
       <button v-for="item in menu" :key="item.label"
-              class="w-full text-left bg-green-100 hover:bg-green-200 px-4 py-2 rounded-xl"
+              class="flat-btn w-full text-left px-4 py-2 rounded-md"
               @click="currentView = item.component">
         {{ item.label }}
       </button>
 
       <div class="font-semibold mt-4">Pajak Penghasilan</div>
-      <button class="w-full text-left bg-green-100 hover:bg-green-200 px-4 py-2 rounded-xl"
+      <button class="flat-btn w-full text-left px-4 py-2 rounded-md"
               @click="currentView = 'TaxLayer'">
         Lapisan Pajak Penghasilan
       </button>
-      <button class="w-full text-left bg-green-100 hover:bg-green-200 px-4 py-2 rounded-xl"
+      <button class="flat-btn w-full text-left px-4 py-2 rounded-md"
               @click="currentView = 'NonTaxableIncome'">
         Penghasilan Tidak Kena Pajak
       </button>
@@ -29,21 +29,14 @@
 
     <!-- Main Content -->
     <div class="col-span-9 space-y-4">
-      <div class="bg-white p-4 rounded-2xl shadow">
+      <div class="flat-card p-4">
         <div class="flex justify-between items-center">
           <h2 class="text-xl font-semibold">Ringkasan - Gaji Keluar</h2>
-          <select v-model="summaryFilter" class="border p-1 rounded">
-            <option>Tahun</option>
-            <option>Bulan</option>
-          </select>
         </div>
-        <!-- Placeholder chart -->
-        <div class="h-40 bg-gray-100 mt-4 rounded-xl flex items-center justify-center text-gray-500">
-          [ Chart Placeholder ]
-        </div>
+        <LineChart :chart-data="chartData" />
       </div>
 
-      <div class="bg-white p-4 rounded-2xl shadow">
+      <div class="flat-card p-4">
         <h2 class="text-xl font-semibold mb-2">Rangkuman - Gaji Karyawan</h2>
         <table class="w-full">
           <thead>
@@ -74,10 +67,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import LineChart from '../components/LineChart.vue'
 
-// Dummy data
 const selectedPeriod = ref('Maret 2025 - April 2025')
-const summaryFilter = ref('Tahun')
 const currentView = ref(null)
 
 const menu = [
@@ -85,7 +77,7 @@ const menu = [
   { label: 'Komponen Gaji', component: 'SalaryComponent' },
   { label: 'Struktur Gaji', component: 'SalaryStructure' },
   { label: 'Riwayat Slip Gaji', component: 'SalarySlip' },
-  { label: 'Incentives', component: 'SalaryComponent' } // dipakai komponen yg sama
+  { label: 'Incentives', component: 'SalaryComponent' }
 ]
 
 const salarySummary = ref([
@@ -93,6 +85,19 @@ const salarySummary = ref([
   { name: 'Jumlah', role: 'Accountant', salary: 4525000, tax: 0 },
   { name: 'Siti Aulia Wulandari', role: 'Admin', salary: 4325000, tax: 0 }
 ])
+
+const chartData = ref({
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+  datasets: [
+    {
+      label: 'Gaji Keluar',
+      data: [4500000, 4700000, 4900000, 5100000, 5300000],
+      borderColor: '#007bff',
+      backgroundColor: 'rgba(0, 123, 255, 0.2)',
+      tension: 0.4
+    }
+  ]
+})
 
 const formatNumber = (val) => {
   return val.toLocaleString('id-ID')
@@ -105,7 +110,27 @@ const openPeriodModal = () => {
 
 <style scoped>
 .payroll-page {
-  background-color: #f9f9f9;
+  background-color: #f8f9fa;
   min-height: 100vh;
+}
+
+.flat-card {
+  background: white;
+  border-radius: 5px;
+  padding: 16px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.flat-btn {
+  background: #007bff;
+  border-radius: 5px;
+  padding: 10px 15px;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+.flat-btn:hover {
+  background: #0056b3;
 }
 </style>

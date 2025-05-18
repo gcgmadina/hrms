@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { getHRProfile, updateHRProfile } from "../hrpay/api/user.js";
+import { getHRProfile, updateHRProfile } from "../../../hrpay/api/user.js";
 
 const profile = ref({
   full_name: "",

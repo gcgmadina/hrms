@@ -56,6 +56,8 @@ const login = async () => {
   const data = await res.json()
 
   if (data.message === 'Logged In') {
+    localStorage.setItem('isLoggedIn', 'true');
+    console.log("Login Berhasil, Status di LocalStorage:", localStorage.getItem("isLoggedIn")); // Debug!
     router.push('/dashboard')
   } else {
     alert('Login gagal')
@@ -77,7 +79,6 @@ const login = async () => {
   flex: 1;
   background-color: #0077b6;
   color: white;
-  padding: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,22 +1,31 @@
 <template>
   <div class="attendance-list">
-    <h2>Daftar Kehadiran Karyawan</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Nama</th>
-          <th>Jabatan</th>
-          <th>Status Kehadiran</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="employee in employees" :key="employee.id">
-          <td>{{ employee.name }}</td>
-          <td>{{ employee.position }}</td>
-          <td :class="getStatusClass(employee.status)">{{ employee.status }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="card">
+      <h2>Daftar Kehadiran Karyawan</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Jabatan</th>
+            <th>Status Kehadiran</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="employee in employees" :key="employee.id">
+            <td>
+              <div class="employee-info">
+                <img :src="employee.avatar" alt="Avatar" class="avatar" />
+                {{ employee.name }}
+              </div>
+            </td>
+            <td>{{ employee.position }}</td>
+            <td :class="getStatusClass(employee.status)">
+              <span class="status-badge">{{ employee.status }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 <script>
@@ -65,10 +74,35 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 .attendance-list {
-  max-width: 600px;
+  max-width: 100%;
   margin: auto;
   text-align: center;
+}
+
+.employee-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
 }
 
 table {

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { getCompanyInfo, updateCompanyInfo } from "../hrpay/api/company.js";
+import { getCompanyInfo, updateCompanyInfo } from "../../../hrpay/api/company.js";
 
 export default {
   data() {

@@ -1,4 +1,4 @@
-const API_URL = "https://localhost:8000"; // Ganti dengan URL backend kamu
+const API_URL = "https://localhost:8000"; 
 
 export async function getSalaryStructures() {
     try {

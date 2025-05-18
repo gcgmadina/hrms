@@ -29,7 +29,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { addUser, getRoles } from "@/data/user";
+import { addUser, getRoles } from "../data/User";
 
 const roles = ref([]);
 const form = ref({

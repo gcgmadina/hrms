@@ -151,50 +151,94 @@ export default {
 
 <style scoped>
 .leave-requests {
-  max-width: 800px;
+  max-width: 100%;
   margin: auto;
-  font-family: sans-serif;
-  position: relative;
+  font-family: "Inter", sans-serif;
+  padding: 20px;
 }
+
 .back-button {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: none;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  color: #4CAF50;
+  color: #007bff;
+  transition: 0.3s ease-in-out;
 }
+
+.back-button:hover {
+  color: #909dac;
+}
+
 .filters {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 15px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
 }
+
+select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
 }
-table, th, td {
-  border: 1px solid #ccc;
-}
+
 th, td {
-  padding: 8px;
+  padding: 12px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
 }
+
+th {
+  background: #e3e3e3;
+  font-weight: 600;
+}
+
+td {
+  font-size: 14px;
+}
+
 .status-accepted {
-  color: green;
+  color: #2E7D32;
+  background: #C8E6C9;
+  padding: 6px 10px;
+  border-radius: 15px;
+  display: inline-block;
   font-weight: bold;
 }
+
 .status-rejected {
-  color: red;
+  color: #C62828;
+  background: #FFCDD2;
+  padding: 6px 10px;
+  border-radius: 15px;
+  display: inline-block;
   font-weight: bold;
 }
+
 .status-pending {
-  color: orange;
+  color: #F57C00;
+  background: #FFE0B2;
+  padding: 6px 10px;
+  border-radius: 15px;
+  display: inline-block;
   font-weight: bold;
 }
+
 .popup {
   position: fixed;
   top: 0;
@@ -206,20 +250,26 @@ th, td {
   justify-content: center;
   align-items: center;
 }
+
 .popup-content {
   background: white;
   padding: 20px;
-  border-radius: 5px;
-  width: 400px;
+  border-radius: 10px;
+  width: 450px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
 button {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #007bff;
+  color: #007bff;
   padding: 10px 15px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
+  transition: 0.3s;
 }
+
 button:hover {
-  background-color: #45a049;
+  background-color: #909dac;
 }
 </style>

@@ -1,7 +1,7 @@
 <!-- src/views/HolidayManager.vue -->
 <template>
   <div class="holiday-manager">
-    <h2>Daftar Holiday List</h2>
+    <h2>Daftar Hari Libur</h2>
     <ul>
       <li v-for="list in holidayLists" :key="list.name" @click="fetchDetails(list.name)">
         {{ list.name }}
