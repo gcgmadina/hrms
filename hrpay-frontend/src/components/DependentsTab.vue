@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <h3>Dependents</h3>
-    <table border="1">
+  <div class="dependent-container">
+    <h3 class="title">Tanggungan</h3>
+
+    <table class="dependent-table">
       <thead>
         <tr>
           <th>Nama</th>
@@ -14,28 +15,38 @@
           <td>{{ dependent.name }}</td>
           <td>{{ dependent.relationship }}</td>
           <td>
-            <button @click="removeDependent(index)">Hapus</button>
+            <button class="delete-btn" @click="removeDependent(index)">Hapus</button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <input type="text" v-model="newDependent.name" placeholder="Nama Tanggungan" />
-    <select v-model="newDependent.relationship">
-      <option value="anak">Anak</option>
-      <option value="istri">Istri</option>
-      <option value="lainnya">Lainnya</option>
-    </select>
-    <button @click="addDependent">Tambah</button>
+    <div class="form-row">
+      <input type="text" v-model="newDependent.name" placeholder="Nama Tanggungan" class="input-field"/>
+      <select v-model="newDependent.relationship" class="input-dropdown">
+        <option value="anak">Anak</option>
+        <option v-if="maritalStatus === 'Married'" value="istri">Istri</option>
+        <option v-if="maritalStatus === 'Married'" value="suami">Suami</option>
+        <option value="orang tua">Orang Tua</option>
+        <option value="lainnya">Lainnya</option>
+      </select>
+      <button class="add-btn" @click="addDependent">Tambah</button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    maritalStatus: {
+      type: String,
+      required: true
+    },
+   }, // Ambil status pernikahan dari form utama
   data() {
     return {
       dependents: [],
-      newDependent: { name: "", relationship: "anak" },
+      newDependent: { name: "", relationship: "anak" }
     };
   },
   methods: {
@@ -51,16 +62,30 @@ export default {
     removeDependent(index) {
       this.dependents.splice(index, 1);
       this.$emit("dependentsUpdated", this.dependents.length);
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style>
-table {
+.dependent-container {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 12px;
+}
+
+.dependent-table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid #ddd;
+  background: white;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -80,24 +105,45 @@ tr:hover {
   background-color: #f9f9f9;
 }
 
-button {
+.form-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.input-field, .input-dropdown {
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.add-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.add-btn:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
   background-color: #e74c3c;
   color: white;
   padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: 0.3s ease;
 }
 
-button:hover {
+.delete-btn:hover {
   background-color: #c0392b;
-}
-
-input, select {
-  padding: 8px;
-  margin-right: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 </style>

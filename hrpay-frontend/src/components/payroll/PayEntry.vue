@@ -4,8 +4,8 @@
 
     <!-- Pilih Payroll Period -->
     <div class="form-group">
-      <label for="payrollPeriod">Payroll Period:</label>
-      <select id="payrollPeriod" v-model="selectedPayrollPeriod">
+      <label for="periode">Payroll Period:</label>
+      <select id="periode" v-model="selectedPayrollPeriod">
         <option v-for="period in payrollPeriods" :key="period.name" :value="period.name">
           {{ period.name }}
         </option>
@@ -88,7 +88,7 @@ export default {
     },
     async fetchEmployees() {
       try {
-        const response = await fetch("https://localhost:8000/api/resource/Employee");
+        const response = await fetch("https://localhost:8000/api/resource/Employee%20ID");
         const result = await response.json();
         this.employees = result.data;
       } catch (error) {
@@ -119,6 +119,7 @@ export default {
             "Content-Type": "application/json",
             "Authorization": `Basic ${basicAuth}`
           },
+          credentials: 'include',
           body: JSON.stringify(payrollEntryData)
         });
 
@@ -149,6 +150,7 @@ export default {
             "Content-Type": "application/json",
             "Authorization": `Basic ${basicAuth}`
           },
+          credentials: 'include',
           body: JSON.stringify(payrollEntryData)
         });
 

@@ -2,9 +2,14 @@
   <div class="dashboard">
     <Sidebar v-if="$route.path !== '/form'"/>
     <div class="main">
-      <Navbar v-if="$route.path !== '/form'"/>
+      <Navbar v-if="$route.path !== '/form'">
+        <div class="company-info">
+          <!-- <img src="/logo.png" alt="Company Logo" class="logo"/> -->
+          <span class="company-name">Nama Perusahaan</span>
+        </div>
+      </Navbar>
       <div class="content">
-        
+
         <div class="cards">
           <div class="card blue">Total Karyawan<br /><strong>2</strong></div>
           <div class="card green">Hadir Hari Ini<br /><strong>25</strong></div>
@@ -14,7 +19,7 @@
 
         <div class="bottom-section">
           <div class="box">Statistik Kehadiran</div>
-           <AttendanceChart/>
+          <AttendanceChart/>
           <div class="box">
             <h3>Pengajuan Izin</h3>
             <table>
@@ -40,11 +45,16 @@
             </table>
           </div>
         </div>
+
+        <div class="user-section">
+          <SetupUser/>
+          <ProfileHR/>
+        </div>
+
       </div>
     </div>
   </div>
 </template>
-
 <script>
 // import { onMounted } from 'vue'
 

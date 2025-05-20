@@ -13,9 +13,9 @@
       </thead>
       <tbody>
         <tr v-for="periode in payrollPeriods" :key="periode.name">
-          <td>{{ periode.payroll_period_name }}</td>
-          <td>{{ periode.start_date }}</td>
-          <td>{{ periode.end_date }}</td>
+          <td>{{ periode.period_name }}</td>
+          <td>{{ periode.period_date_start }}</td>
+          <td>{{ periode.period_date_end }}</td>
         </tr>
       </tbody>
     </table>
@@ -44,8 +44,9 @@ export default {
         const response = await fetch("https://localhost:8000/api/resource/Payroll%20Periode", {
           method: "GET",
           headers: {
-            "Authorization": `Basic ${basicAuth}`
-          }
+            
+          },
+          credentials: 'include'
         });
 
         if (!response.ok) {

@@ -10,6 +10,8 @@ import User from "../views/User.vue";
 import Profile from "../views/Profile.vue";
 import EmployeeForm from "../components/EmployeeForm.vue"
 import LeaveReq from "../components/LeaveRequests.vue";
+import PayrollHist from "../components/payroll/PayrollHist.vue"
+import PPh21 from "../components/pph21/Pph21.vue"
 // mobile
 // import DashApp from '../views/mobile/DashApp.vue';
 // import LeaveHistory from '../views/mobile/LeaveHistory.vue';
@@ -28,7 +30,9 @@ const routes = [
     { path: "/user", component: User },
     { path: "/profile", component: Profile },
     { path: "/leave-requests", component: LeaveReq},
-    // { path: "/pph21", component: PPh21 },
+    { path: "/payroll-entry", component: () => import('@/components/payroll/PayEntry.vue')},
+    { path: "/payroll-hist", component: PayrollHist},
+    { path: "/pph21", component: PPh21 },
     // { path: "/dashApp", component: DashApp},
     // { path: "/leavehist", component: LeaveHistory},
     // { path: "/loginapp", component: LoginApp},

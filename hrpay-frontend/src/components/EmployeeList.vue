@@ -125,7 +125,7 @@ export default {
   }
 
   select {
-    padding: 15px 20px;
+    padding: 15px 15px;
     border-radius: 10px;
     border: 1.5px solid #ccc;
   }

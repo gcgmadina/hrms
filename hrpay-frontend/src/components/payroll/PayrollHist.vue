@@ -1,16 +1,13 @@
 <template>
   <div class="payroll-history">
-    <!-- Button Back di Pojok Kiri -->
     <button class="back-button" @click="goBack">
-      <i class="fas fa-arrow-left"></i> Back
+      <i class="fas fa-arrow-left"></i> Kembali
     </button>
-
     <h1>Riwayat Payroll</h1>
 
-    <!-- Filter Periode -->
     <div class="filters">
-      <label for="period">Periode:</label>
-      <select id="period" v-model="selectedPeriod" @change="filterPayrolls">
+      <label for="periode">Periode:</label>
+      <select id="periode" v-model="selectedPeriod" @change="filterPayrolls">
         <option value="">Semua</option>
         <option v-for="period in periods" :key="period.name" :value="period.name">
           {{ period.name }}
@@ -18,7 +15,6 @@
       </select>
     </div>
 
-    <!-- Daftar Payroll -->
     <div v-if="filteredPayrolls.length">
       <table>
         <thead>
@@ -41,116 +37,31 @@
         </tbody>
       </table>
     </div>
-
-    <!-- Jika Tidak Ada Data -->
     <div v-else>
       <p>Tidak ada riwayat payroll untuk periode ini.</p>
-    </div>
-
-    <!-- Pop-up Detail Payroll -->
-    <div v-if="selectedPayroll" class="popup">
-      <div class="popup-content">
-        <h2>Detail Payroll - {{ selectedPayroll.period }}</h2>
-        <p><strong>Total Payroll:</strong> {{ formattedCurrency(selectedPayroll.total_amount) }}</p>
-        <p><strong>Status:</strong> <span :class="statusClass(selectedPayroll.status)">{{ selectedPayroll.status }}</span></p>
-
-        <h3>Daftar Karyawan</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Nama Karyawan</th>
-              <th>Gaji Pokok</th>
-              <th>Total Pendapatan</th>
-              <th>Total Pemotongan</th>
-              <th>Gaji Bersih</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="employee in selectedPayroll.employees" :key="employee.name">
-              <td>{{ employee.name }}</td>
-              <td>{{ formattedCurrency(employee.base_salary) }}</td>
-              <td>{{ formattedCurrency(employee.total_earnings) }}</td>
-              <td>{{ formattedCurrency(employee.total_deductions) }}</td>
-              <td>{{ formattedCurrency(employee.net_salary) }}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <button @click="closePayrollDetails">Tutup</button>
-      </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      payrolls: [], // Data Payroll dari ERPNext
-      filteredPayrolls: [], // Data yang sudah difilter
-      periods: [], // Data Periode dari ERPNext
-      selectedPeriod: "", // Filter berdasarkan periode
-      selectedPayroll: null // Payroll yang dipilih untuk detail
-    };
-  },
-  computed: {
-    statusClass() {
-      return status => {
-        return {
-          "status-posted": status === "Posted",
-          "status-draft": status === "Draft",
-          "status-cancelled": status === "Cancelled"
-        };
-      };
-    },
-    formattedCurrency() {
-      return amount => new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0
-      }).format(amount);
-    }
-  },
-  methods: {
-    goBack() {
-      this.$router.push("/payroll"); // Kembali ke halaman Payroll
-    },
-    async fetchPayrolls() {
-      try {
-        const response = await fetch("https://localhost:8000/api/resource/Payroll%20Entry");
-        const result = await response.json();
-        this.payrolls = result.data;
-        this.filteredPayrolls = this.payrolls; // Default tanpa filter
-      } catch (error) {
-        console.error("Error fetching payrolls:", error);
-      }
-    },
-    async fetchPeriods() {
-      try {
-        const response = await fetch("https:/localhost:8000/api/resource/Payroll%20Periode");
-        const result = await response.json();
-        this.periods = result.data;
-      } catch (error) {
-        console.error("Error fetching periods:", error);
-      }
-    },
-    filterPayrolls() {
-      this.filteredPayrolls = this.payrolls.filter(payroll => {
-        return !this.selectedPeriod || payroll.period === this.selectedPeriod;
-      });
-    },
-    viewPayrollDetails(payroll) {
-      this.selectedPayroll = payroll;
-    },
-    closePayrollDetails() {
-      this.selectedPayroll = null;
-    }
-  },
-  mounted() {
-    this.fetchPayrolls();
-    this.fetchPeriods();
-  }
-};
+<script setup>
+import { ref } from 'vue'
+
+const selectedPeriod = ref("")
+const filteredPayrolls = ref([])
+const periods = ref([])
+const selectedPayroll = ref(null)
+
+const goBack = () => {
+  emit('change-view', null) // Memanggil event untuk kembali ke Payroll.vue
+}
+
+const formattedCurrency = (amount) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0
+  }).format(amount);
+}
 </script>
 
 <style scoped>

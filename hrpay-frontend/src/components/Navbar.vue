@@ -17,7 +17,7 @@ const handleSearch = () => {
 
 <style scoped>
 .navbar {
-  background: #34495e;
+  background: #dfdfdf;
   padding: 15px;
   display: flex;
   justify-content: right;

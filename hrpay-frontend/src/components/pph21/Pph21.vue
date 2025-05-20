@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import KategoriForm from "./KategoriForm.vue";
+import KategoriForm from "./Kategori.vue";
 import PTKPForm from "./PTKPForm.vue";
 import PKPForm from "./PKPForm.vue";
 

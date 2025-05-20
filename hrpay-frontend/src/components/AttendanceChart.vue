@@ -92,5 +92,14 @@ export default {
 canvas {
   max-width: 400px;
   margin: auto;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
+
+h2 {
+  margin-bottom: 10px;
+  border: none !important;
+}
+
 </style>

@@ -1,50 +1,37 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path' 
+import path from 'path'
 import Icons from 'unplugin-icons/vite'
-import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
-  import frappeui from 'frappe-ui/vite'
+// import frappeui from 'frappe-ui/vite'
+const frappeUI = await import('frappe-ui/vite');
 
-// https://vite.dev/config/
+
 export default defineConfig({
-  plugins: [frappeui(),vue()],
+  plugins: [
+    frappeui(),
+    vue(),
+    Components(),
+    Icons({ compiler: 'vue3' }),
+  ],
 
-  
-   server: {
+  server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8000', // Frappe backend
+        target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
-      }
-    }
+      },
+    },
   },
-  setup() {
-    const router = useRouter()
 
-    const login = async () => {
-      // ...
-      router.push('/dashboard')
-    }
-
-    return { login }
-  },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"), // Alias @ harus didefinisikan
+      '@': path.resolve(__dirname, 'src'),
     },
-  },plugins: [vue(),
-    Components({
-      
-    }),
-    Icons({
-      compiler: 'vue3',
-    }),
-  ], 
-
-  optimizeDeps: {
-    include: ['frappe-ui > feather-icons', 'showdown', 'engine.io-client'],
   },
 
+  optimizeDeps: {
+    include: ['frappe-ui', 'feather-icons', 'showdown', 'engine.io-client'],
+  },
 })

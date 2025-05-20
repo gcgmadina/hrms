@@ -3,6 +3,7 @@
     <h2>Menu</h2>
     <ul>
       <li><router-link to="/dashboard">📊 Dashboard</router-link></li>
+      <li><router-link to="/company-setup">🏢 Company</router-link></li>
       <li><router-link to="/employees">👥 Karyawan</router-link></li>
       <li><router-link to="/attendance">📅 Attendance</router-link></li>
       <li><router-link to="/leave-requests">📝 Leave Request</router-link></li>
@@ -36,54 +37,24 @@ const user = {
 <style scoped>
 .sidebar {
   width: 250px;
-  background: #007bff;
-  color: white;
+  background: #f0f0f0; /* Warna lebih netral */
+  color: #333; /* Warna teks lebih lembut */
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-}
-.sidebar h2 {
-  text-align: center;
-}
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-.sidebar ul li {
-  margin: 15px 0;
-}
-.sidebar ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-}
-.sidebar ul li a:hover {
-  text-decoration: underline;
+  justify-content: flex-start; /* Pastikan tidak di tengah */
+  border: none !important; /* Hilangkan border */
+  box-shadow: none !important; /* Hilangkan shadow */
 }
 
-/* Profil Pengguna */
+.sidebar ul li a {
+  color: #333; /* Warna teks lebih netral */
+}
+
 .user-profile {
-  display: flex;
-  align-items: center;
   padding: 15px;
-  background: #34495e;
-  border-radius: 10px;
+  background: transparent; /* Hapus warna background */
+  border: none !important;
 }
-.profile-pic {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-.user-info p {
-  font-size: 16px;
-  font-weight: bold;
-}
-.user-info span {
-  font-size: 14px;
-  color: #bdc3c7;
-}
+
 </style>

@@ -1,73 +1,123 @@
 <template>
   <div class="container">
     <h2>Tambah Payroll Periode</h2>
-    <form @submit.prevent="submitPayroll">
+    <form @submit.prevent="submitPayrollPeriod">
       <label for="periode">Nama Periode:</label>
-      <input type="text" v-model="payroll.periode" placeholder="Contoh: Payroll Maret 2025" required>
+      <input
+        type="text"
+        v-model="payroll.periode"
+        placeholder="Contoh: Payroll Maret 2025"
+        required
+        @focus="manualEdit = true"
+        @blur="updatePeriode"
+      >
 
       <label for="startDate">Tanggal Mulai:</label>
-      <input type="date" v-model="payroll.startDate" required>
+      <input type="date" v-model="payroll.start_date" required>
 
-      <label for="endDate">Tanggal Akhir:</label>
-      <input type="date" v-model="payroll.endDate" required>
+      <label for="endDate">Tanggal Selesai:</label>
+      <input type="date" v-model="payroll.end_date" required>
 
-      <button type="submit">Simpan Periode</button>
+      <label for="exchangeRate">Exchange Rate:</label>
+      <input type="number" v-model="payroll.exchange_rate" step="0.01" required>
+
+      <label for="payableAccount">Payroll Payable Account:</label>
+      <input type="text" v-model="payroll.payroll_payable_account" placeholder="Contoh: Bank Account" required>
+
+      <button type="button" @click="resetPeriode">Reset</button>
+      <button type="submit">Submit Payroll</button>
     </form>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      payroll: {
-        periode: "",
-        startDate: "",
-        endDate: ""
-      }
-    };
-  },
-  methods: {
-    async submitPayroll() {
-      // Validasi tanggal
-      if (new Date(this.payroll.startDate) > new Date(this.payroll.endDate)) {
-        alert("Tanggal mulai tidak boleh lebih besar dari tanggal akhir!");
-        return;
-      }
+<script setup>
+import { ref, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { formatDate } from '@/utils/payroll'
 
-      try {
-        const response = await fetch("https://localhost:8000/api/resource/Payroll%20Periode", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Basic ${basicAuth}`
-          },
-          body: JSON.stringify({
-            payroll_period_name: this.payroll.periode,
-            start_date: this.payroll.startDate,
-            end_date: this.payroll.endDate
-          })
-        });
+const emit = defineEmits(['periodeAdded'])
+const router = useRouter()
 
-        if (!response.ok) {
-          throw new Error("Gagal menambahkan payroll periode!");
-        }
+const payroll = ref({
+  periode: '',
+  start_date: '',
+  end_date: '',
+  exchange_rate: 1.0,
+  payroll_payable_account: 'Bank Account'
+})
 
-        const data = await response.json();
-        alert(`Payroll Periode "${this.payroll.periode}" berhasil ditambahkan!`);
-        console.log(data);
+const manualEdit = ref(false)
 
-        // Reset form
-        this.payroll.periode = "";
-        this.payroll.startDate = "";
-        this.payroll.endDate = "";
-      } catch (error) {
-        console.error("Error:", error);
-        alert(error.message);
-      }
-    }
+const autoPeriode = computed(() => {
+  if (payroll.value.start_date) {
+    const date = new Date(payroll.value.start_date)
+    const month = date.toLocaleString('id-ID', { month: 'long' })
+    const year = date.getFullYear()
+    return `Payroll ${month} ${year}`
   }
-};
+  return ''
+})
+
+watch(() => payroll.value.start_date, () => {
+  if (!manualEdit.value) payroll.value.periode = autoPeriode.value
+})
+
+watch(() => payroll.value.end_date, () => {
+  if (!manualEdit.value && !payroll.value.periode) payroll.value.periode = autoPeriode.value
+})
+
+const submitPayrollPeriod = async () => {
+  try {
+    const formattedStartDate = formatDate(payroll.value.start_date)
+    const formattedEndDate = formatDate(payroll.value.end_date)
+
+    // Debugging tambahan
+    console.log("Payload yang dikirim:", JSON.stringify({
+      period_name: payroll.value.periode,
+      period_date_start: formattedStartDate,
+      period_date_end: formattedEndDate,
+      exchange_rate: payroll.value.exchange_rate,
+      payroll_payable_account: payroll.value.payroll_payable_account
+    }));
+
+    const response = await fetch("http://localhost:8000/api/method/hrpay.api.payroll.submit_payroll_period", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        period_name: payroll.value.periode,
+        period_date_start: formattedStartDate,
+        period_date_end: formattedEndDate,
+        exchange_rate: payroll.value.exchange_rate,
+        payroll_payable_account: payroll.value.payroll_payable_account
+      })
+    })
+
+    const data = await response.json()
+
+    console.log("Response status:", response.status)
+    console.log("Response data:", data)
+
+    if (response.ok) {
+      alert("Payroll periode berhasil ditambahkan!")
+      emit('periodeAdded')
+      router.push('/payroll-entry')
+    } else {
+      throw new Error(data.message || "Gagal menambahkan payroll periode.")
+    }
+  } catch (error) {
+    console.error("Error terjadi:", error)
+    alert("Terjadi kesalahan saat submit payroll.")
+  }
+}
+
+const resetPeriode = () => {
+  manualEdit.value = false
+  payroll.value.periode = autoPeriode.value
+}
 </script>
 
 <style>

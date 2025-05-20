@@ -1,120 +1,120 @@
 <template>
-  <div class="container">
-    <h2>Tambah Salary Component</h2>
-    <form @submit.prevent="submitSalaryComponent">
-      <label for="name">Nama Komponen:</label>
-      <input type="text" v-model="salaryComponent.name" placeholder="Contoh: Tunjangan Transport" required>
+  <div class="form-card p-4 space-y-4 rounded-lg shadow-md bg-white">
+    <h2 class="text-xl font-semibold mb-2">
+      {{ editData ? 'Edit Komponen Gaji' : 'Tambah Komponen Gaji' }}
+    </h2>
 
-      <label for="type">Jenis Komponen:</label>
-      <select v-model="salaryComponent.type" required>
-        <option value="Earning">Earning</option>
-        <option value="Deduction">Deduction</option>
-        <option value="Incentive">Incentive</option>
-        <option value="Bonus">Bonus</option>
-      </select>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label>Nama Komponen</label>
+        <input v-model="form.componentName" type="text" class="input-field" required />
+      </div>
 
-      <label for="amount">Jumlah:</label>
-      <input type="number" v-model="salaryComponent.amount" placeholder="Masukkan nominal atau persen" required>
+      <div>
+        <label>Jenis</label>
+        <select v-model="form.type" class="input-field">
+          <option value="Earning">Tunjangan (Earning)</option>
+          <option value="Deduction">Potongan (Deduction)</option>
+        </select>
+      </div>
 
-      <label>
-        <input type="checkbox" v-model="salaryComponent.isPercentage"> Is Percentage?
-      </label>
+      <div>
+        <label>Kode Komponen</label>
+        <input v-model="form.code" type="text" class="input-field" required />
+      </div>
 
-      <button type="submit">SAVE</button>
-      <button type="button" @click="goBack">🔙 Back</button>
-    </form>
+      <div>
+        <label>Jumlah Tetap?</label>
+        <select v-model="form.isFixed" class="input-field">
+          <option :value="1">Ya</option>
+          <option :value="0">Tidak</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="flex justify-end mt-4 space-x-2">
+      <button class="btn-secondary" @click="$emit('close')">Batal</button>
+      <button class="btn-primary" @click="submitForm">
+        {{ editData ? 'Update' : 'Simpan' }}
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    editData: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
-      salaryComponent: {
-        name: "",
+      form: {
+        componentName: "",
         type: "Earning",
-        amount: 0,
-        isPercentage: false
+        code: "",
+        isFixed: 1
       }
     };
   },
+  mounted() {
+    if (this.editData) {
+      this.form.componentName = this.editData.component_name;
+      this.form.type = this.editData.type;
+      this.form.code = this.editData.code;
+      this.form.isFixed = this.editData.is_fixed ? 1 : 0;
+    }
+  },
   methods: {
-    async submitSalaryComponent() {
-      const username = "your_username";
-      const password = "your_password";
-      const basicAuth = btoa(`${username}:${password}`);
+    async submitForm() {
+      const url = this.editData
+        ? `https://localhost:8000/api/resource/Salary%20Component%20ID/${this.editData.name}`
+        : `https://localhost:8000/api/resource/Salary%20Component%20ID`;
+
+      const method = this.editData ? "PUT" : "POST";
 
       try {
-        const response = await fetch("https://localhost:8000/api/resource/Salary%20Component%20ID", {
-          method: "POST",
+        const res = await fetch(url, {
+          method,
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Basic ${basicAuth}`
           },
           body: JSON.stringify({
-            component_name: this.salaryComponent.name,
-            component_type: this.salaryComponent.type,
-            amount: this.salaryComponent.amount,
-            is_percentage: this.salaryComponent.isPercentage
+            component_name: this.form.componentName,
+            type: this.form.type,
+            code: this.form.code,
+            is_fixed: Boolean(this.form.isFixed)
           })
         });
 
-        if (!response.ok) {
-          throw new Error("Gagal menambahkan salary component!");
-        }
+        if (!res.ok) throw new Error("Gagal menyimpan data komponen!");
 
-        const data = await response.json();
-        alert(`Salary Component "${this.salaryComponent.name}" berhasil ditambahkan!`);
-        this.$emit("componentAdded"); // Emit event ke parent untuk refresh data
-
-        // Reset form
-        this.salaryComponent.name = "";
-        this.salaryComponent.type = "Earning";
-        this.salaryComponent.amount = 0;
-        this.salaryComponent.isPercentage = false;
-      } catch (error) {
-        console.error("Error:", error);
-        alert(error.message);
+        const data = await res.json();
+        alert(`Komponen Gaji berhasil ${this.editData ? "diperbarui" : "ditambahkan"}!`);
+        this.$emit('saved');
+        this.$emit('close');
+      } catch (err) {
+        alert(err.message);
       }
-    },
-    goBack() {
-      this.$router.push("/salary-components"); // Kembali ke daftar salary component
     }
   }
 };
 </script>
 
-<style>
-.container {
-  max-width: 400px;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+<style scoped>
+.input-field {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md;
 }
-label {
-  font-weight: bold;
-  display: block;
-  margin-top: 10px;
+.btn-primary {
+  @apply px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700;
 }
-input, select {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.btn-secondary {
+  @apply px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400;
 }
-button {
-  background-color: #28a745;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 15px;
-  width: 100%;
-}
-button:hover {
-  background-color: #218838;
+.form-card {
+  @apply max-w-3xl mx-auto bg-white;
 }
 </style>
