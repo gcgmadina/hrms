@@ -67,13 +67,25 @@ const login = async () => {
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f8;
+}
+
 .page-container {
   display: flex;
   height: 100vh;
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
-  box-sizing: border-box;
+  width: 100vw;
   flex-direction: row;
+  overflow: hidden;
 }
 
 .left-panel {
@@ -83,6 +95,7 @@ const login = async () => {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0 40px;
 }
 
 .left-panel h1 {
@@ -101,13 +114,14 @@ const login = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
 }
 
 .login-card {
   background-color: white;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 400px;
 }
@@ -116,6 +130,7 @@ h2 {
   margin-bottom: 24px;
   color: #222;
   font-weight: 600;
+  font-size: 24px;
 }
 
 label {
@@ -123,6 +138,7 @@ label {
   margin-bottom: 6px;
   color: #555;
   margin-top: 16px;
+  font-size: 14px;
 }
 
 input {
@@ -131,7 +147,13 @@ input {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 15px;
-  box-sizing: border-box;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #0077b6;
 }
 
 .login-button {
@@ -143,24 +165,24 @@ input {
   border: none;
   border-radius: 8px;
   font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .login-button:hover {
   background-color: #005f8c;
 }
 
-/* mobile-version */
+/* Mobile Styles */
 @media (max-width: 768px) {
-   .page-container {
+  .page-container {
     flex-direction: column;
-    overflow-y: auto; /* biar bisa scroll kalau konten tinggi */
+    overflow-y: auto;
   }
-  
 
   .left-panel, .right-panel {
-    flex: unset;
+    flex: none;
     width: 100%;
     height: auto;
   }
@@ -172,16 +194,15 @@ input {
 
   .right-panel {
     padding: 20px;
-    min-height: 50vh;
     justify-content: flex-start;
   }
 
   .login-card {
     margin-top: 20px;
-    width: 100%;
-    max-width: none;
+    padding: 30px 20px;
     box-shadow: none;
     border-radius: 0;
+    max-width: none;
   }
 }
 </style>

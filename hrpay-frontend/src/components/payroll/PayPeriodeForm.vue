@@ -21,8 +21,8 @@
       <label for="exchangeRate">Exchange Rate:</label>
       <input type="number" v-model="payroll.exchange_rate" step="0.01" required>
 
-      <label for="payableAccount">Payroll Payable Account:</label>
-      <input type="text" v-model="payroll.payroll_payable_account" placeholder="Contoh: Bank Account" required>
+      <!-- <label for="payableAccount">Payroll Payable Account:</label>
+      <input type="text" v-model="payroll.payroll_payable_account" placeholder="Contoh: Bank Account" required> -->
 
       <button type="button" @click="resetPeriode">Reset</button>
       <button type="submit">Submit Payroll</button>
@@ -43,7 +43,7 @@ const payroll = ref({
   start_date: '',
   end_date: '',
   exchange_rate: 1.0,
-  payroll_payable_account: 'Bank Account'
+  // payroll_payable_account: 'Bank Account'
 })
 
 const manualEdit = ref(false)

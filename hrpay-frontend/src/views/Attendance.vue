@@ -1,5 +1,10 @@
 <template>
   <div class="attendance-container">
+    <div class="button-group">
+      <button @click="goToDashboard" class="btn-back">← Back to Dashboard</button>
+      <button @click="goToRequest" class="btn-request">Request WFH/WFA</button>
+    </div>
+
     <h1>Kehadiran</h1>
     <table class="attendance-table">
       <thead>
@@ -40,8 +45,8 @@
 export default {
   data() {
     return {
-      employees: [], // Data kehadiran karyawan
-      holidays: [], // Data hari libur
+      employees: [],
+      holidays: [],
     };
   },
   mounted() {
@@ -50,10 +55,10 @@ export default {
   },
   methods: {
     async fetchEmployees() {
-      // Fetch data employees dari API
+      // Fetch data dari API kamu
     },
     async fetchHolidays() {
-      // Fetch data libur dari API
+      // Fetch data dari API kamu
     },
     getStatusClass(status) {
       return {
@@ -65,16 +70,47 @@ export default {
         Perdin: "status-perdin",
       }[status] || "status-default";
     },
+    goToDashboard() {
+      this.$router.push("/dashboard");
+    },
+    goToRequest() {
+      this.$router.push("/attendance-request");
+    },
   },
 };
 </script>
-
 
 <style scoped>
 .attendance-container {
   max-width: 150%;
   margin: auto;
   padding: 20px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.btn-back,
+.btn-request {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-back {
+  background-color: #9e9e9e;
+  color: white;
+}
+
+.btn-request {
+  background-color: #2196f3;
+  color: white;
 }
 
 table {

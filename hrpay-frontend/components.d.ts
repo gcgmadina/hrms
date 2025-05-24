@@ -10,8 +10,10 @@ declare module 'vue' {
   export interface GlobalComponents {
     AttendanceChart: typeof import('./src/components/AttendanceChart.vue')['default']
     AttendanceList: typeof import('./src/components/AttendanceList.vue')['default']
+    AttendanceReq: typeof import('./src/components/AttendanceReq.vue')['default']
     CheckIn: typeof import('./src/components/mobile/CheckIn.vue')['default']
     CheckOut: typeof import('./src/components/mobile/CheckOut.vue')['default']
+    CompanyProfile: typeof import('./src/components/CompanyProfile.vue')['default']
     CompanySetup: typeof import('./src/components/CompanySetup.vue')['default']
     DependentsTab: typeof import('./src/components/DependentsTab.vue')['default']
     EmployeeForm: typeof import('./src/components/EmployeeForm.vue')['default']

@@ -1,14 +1,21 @@
 <template>
   <div class="payroll-entry">
+    <button
+      @click="$emit('goBack')"
+      class="mb-4 px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-xl shadow"
+      > Kembali
+    </button>
+
     <h1>Payroll Entry</h1>
 
     <!-- Pilih Payroll Period -->
     <div class="form-group">
       <label for="periode">Payroll Period:</label>
-      <select id="periode" v-model="selectedPayrollPeriod">
-        <option v-for="period in payrollPeriods" :key="period.name" :value="period.name">
-          {{ period.name }}
+      <select id="periode" v-model="selectedPayrollPeriods">
+        <option v-for="periode in payrollPeriods" :key="periode.period_name" :value="periode.period_name">
+          {{ periode.period_name }}
         </option>
+
       </select>
     </div>
 
@@ -25,27 +32,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="employee in employees" :key="employee.name">
+          <tr v-for="employee in employees" :key="employee.full_name ">
             <td>
-              <input type="checkbox" v-model="selectedEmployees" :value="employee.name" />
+              <input type="checkbox" v-model="selectedEmployees" :value="employee.full_name " />
             </td>
-            <td>{{ employee.name }}</td>
-            <td>{{ employee.position }}</td>
-            <td>{{ formattedSalary(employee.salary) }}</td>
+            <td>{{ employee.department }}</td>
+            <td>{{ employee.job_position }}</td>
+            <td>{{ formattedSalary(employee.cost_to_company) }}</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <!-- Pilih Chart of Account -->
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="chartOfAccount">Chart of Account:</label>
       <select id="chartOfAccount" v-model="selectedChartOfAccount">
         <option v-for="account in chartOfAccounts" :key="account.name" :value="account.name">
           {{ account.name }}
         </option>
       </select>
-    </div>
+    </div> -->
 
     <!-- Tombol SAVE dan SUBMIT -->
     <div class="button-group">
@@ -79,7 +86,14 @@ export default {
   methods: {
     async fetchPayrollPeriods() {
       try {
-        const response = await fetch("https://localhost:8000/api/resource/Payroll%20Periode");
+        const fields = encodeURIComponent('["period_name","period_date_end","period_date_start"]');
+        const url = `/api/resource/Payroll%20Periode?fields=${fields}`;
+        const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
         const result = await response.json();
         this.payrollPeriods = result.data;
       } catch (error) {
@@ -87,17 +101,27 @@ export default {
       }
     },
     async fetchEmployees() {
-      try {
-        const response = await fetch("https://localhost:8000/api/resource/Employee%20ID");
-        const result = await response.json();
-        this.employees = result.data;
-      } catch (error) {
-        console.error("Error fetching employees:", error);
+  try {
+    const fields = encodeURIComponent('["full_name","department","job_position","cost_to_company"]');
+    const url = `/api/resource/Employee%20ID?fields=${fields}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
       }
-    },
+    });
+
+    if (!response.ok) throw new Error("Gagal mengambil data karyawan");
+
+    const result = await response.json();
+    this.employees = result.data;
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+  }
+},
     async fetchChartOfAccounts() {
       try {
-        const response = await fetch("https://localhost:8000/api/resource/Chart%20of%20Account");
+        const response = await fetch("api/resource/Chart%20of%20Account");
         const result = await response.json();
         this.chartOfAccounts = result.data;
       } catch (error) {
@@ -113,7 +137,7 @@ export default {
           status: "Draft"
         };
 
-        const response = await fetch("https://localhost:8000/api/resource/Payroll%20Entry", {
+        const response = await fetch("api/resource/Payroll%20Entry", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -144,7 +168,7 @@ export default {
           status: "Posted"
         };
 
-        const response = await fetch("https://localhost:8000/api/resource/Payroll%20Entry", {
+        const response = await fetch("api/resource/Payroll%20Entry", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

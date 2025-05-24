@@ -1,7 +1,9 @@
 <template>
   <div class="payroll-history">
-    <button class="back-button" @click="goBack">
-      <i class="fas fa-arrow-left"></i> Kembali
+    <button
+      @click="$emit('goBack')"
+      class="mb-4 px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-xl shadow"
+      >
     </button>
     <h1>Riwayat Payroll</h1>
 

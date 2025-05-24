@@ -10,8 +10,11 @@
         <PayPeriodeForm v-if="showForm" @close="showForm = false" />
 
         <div class="mt-4 space-y-2">
-          <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('PayrollHist')">
+          <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('PayPeriode')">
             Riwayat Periode
+          </button>
+          <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('PayrollHist')">
+            Riwayat Payroll
           </button>
           <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('SalaryComponent')">
             Komponen Gaji
@@ -41,6 +44,7 @@
 <script setup>
 import { ref } from 'vue'
 import PayPeriodeForm from '@/components/payroll/PayPeriodeForm.vue'
+import PayPeriode from '../components/payroll/PayPeriode.vue'
 import PayrollHist from '@/components/payroll/PayrollHist.vue'
 import SalaryComponent from '@/components/payroll/SalaryComponent.vue'
 import SalaryStructure from '@/components/payroll/SalaryStructure.vue'
@@ -52,6 +56,7 @@ const selectedPeriod = ref('Maret 2025 - April 2025')
 const currentView = ref(null)
 
 const menu = {
+  PayPeriode,
   PayrollHist,
   SalaryComponent,
   SalaryStructure,

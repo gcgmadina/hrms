@@ -1,8 +1,12 @@
 <template>
   <div class="container">
-    <h2>Riwayat Payroll Periode</h2>
-    <PayPeriodeForm @periodeAdded="fetchPayrollPeriods" />
+    <button
+      @click="$emit('goBack')"
+      class="mb-4 px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-xl shadow"
+      >
+    </button>
 
+    <h2>Riwayat Payroll Periode</h2>
     <table>
       <thead>
         <tr>
@@ -23,12 +27,13 @@
 </template>
 
 <script>
-import PayPeriodeForm from "./PayPeriodeForm.vue";
+// import PayPeriodeForm from "./PayPeriodeForm.vue";
+
 
 export default {
-  components: {
-    PayPeriodeForm
-  },
+  // components: {
+  //   PayPeriodeForm
+  // },
   data() {
     return {
       payrollPeriods: []
@@ -36,30 +41,26 @@ export default {
   },
   methods: {
     async fetchPayrollPeriods() {
-      const username = "your_username";
-      const password = "your_password";
-      const basicAuth = btoa(`${username}:${password}`);
+  try {
+    const fields = encodeURIComponent('["period_name","period_date_end","period_date_start"]');
+    const url = `/api/resource/Payroll%20Periode?fields=${fields}`;
 
-      try {
-        const response = await fetch("https://localhost:8000/api/resource/Payroll%20Periode", {
-          method: "GET",
-          headers: {
-            
-          },
-          credentials: 'include'
-        });
-
-        if (!response.ok) {
-          throw new Error("Gagal mengambil data payroll periode!");
-        }
-
-        const data = await response.json();
-        this.payrollPeriods = data.data; // Simpan data ke state
-      } catch (error) {
-        console.error("Error:", error);
-        alert(error.message);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
       }
-    }
+    });
+
+    if (!response.ok) throw new Error("Gagal mengambil data payroll periode!");
+
+    const data = await response.json();
+    this.payrollPeriods = data.data;
+  } catch (error) {
+    console.error("Error:", error);
+    alert(error.message);
+  }
+}
   },
   mounted() {
     this.fetchPayrollPeriods(); // Ambil data saat komponen dimuat

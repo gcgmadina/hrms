@@ -1,5 +1,7 @@
 <template>
   <div class="form-card p-4 space-y-4 rounded-lg shadow-md bg-white">
+    <button @click="$emit('goBack')"
+        class="mb-4 px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-xl shadow">Back</button>
     <h2 class="text-xl font-semibold mb-2">
       {{ editData ? 'Edit Komponen Gaji' : 'Tambah Komponen Gaji' }}
     </h2>
@@ -13,8 +15,9 @@
       <div>
         <label>Jenis</label>
         <select v-model="form.type" class="input-field">
-          <option value="Earning">Tunjangan (Earning)</option>
+          <option value="Earning">Pendapatan (Earning)</option>
           <option value="Deduction">Potongan (Deduction)</option>
+          <option value="Incentives">Insentif (Incentives)</option>
         </select>
       </div>
 
@@ -29,6 +32,21 @@
           <option :value="1">Ya</option>
           <option :value="0">Tidak</option>
         </select>
+      </div>
+
+      <div>
+        <label>Jumlah (Amount)</label>
+        <div class="relative">
+          <input v-model.number="form.amount" type="number" class="input-field pr-10" placeholder="Masukkan nominal atau persentase" />
+          <span class="absolute right-3 top-2.5 text-gray-500">
+            {{ form.isPercentage ? '%' : 'Rp' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <input id="isPercentage" v-model="form.isPercentage" type="checkbox" />
+        <label for="isPercentage" class="text-sm">Gunakan Persentase (%)</label>
       </div>
     </div>
 
@@ -55,7 +73,9 @@ export default {
         componentName: "",
         type: "Earning",
         code: "",
-        isFixed: 1
+        isFixed: 1,
+        amount: 0,
+        isPercentage: false
       }
     };
   },
@@ -65,6 +85,8 @@ export default {
       this.form.type = this.editData.type;
       this.form.code = this.editData.code;
       this.form.isFixed = this.editData.is_fixed ? 1 : 0;
+      this.form.amount = this.editData.amount || 0;
+      this.form.isPercentage = this.editData.is_percentage || false;
     }
   },
   methods: {
@@ -86,7 +108,9 @@ export default {
             component_name: this.form.componentName,
             type: this.form.type,
             code: this.form.code,
-            is_fixed: Boolean(this.form.isFixed)
+            is_fixed: Boolean(this.form.isFixed),
+            amount: this.form.amount,
+            is_percentage: this.form.isPercentage
           })
         });
 
@@ -106,7 +130,7 @@ export default {
 
 <style scoped>
 .input-field {
-  @apply w-full px-3 py-2 border border-gray-300 rounded-md;
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400;
 }
 .btn-primary {
   @apply px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700;

@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
-// import frappeui from 'frappe-ui/vite'
+import frappeui from 'frappe-ui/vite'
 const frappeUI = await import('frappe-ui/vite');
 
 

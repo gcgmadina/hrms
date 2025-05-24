@@ -12,6 +12,8 @@ import EmployeeForm from "../components/EmployeeForm.vue"
 import LeaveReq from "../components/LeaveRequests.vue";
 import PayrollHist from "../components/payroll/PayrollHist.vue"
 import PPh21 from "../components/pph21/Pph21.vue"
+import AttendanceReq from "../components/AttendanceReq.vue"
+import CompanyProfile from "../components/CompanyProfile.vue"
 // mobile
 // import DashApp from '../views/mobile/DashApp.vue';
 // import LeaveHistory from '../views/mobile/LeaveHistory.vue';
@@ -33,6 +35,8 @@ const routes = [
     { path: "/payroll-entry", component: () => import('@/components/payroll/PayEntry.vue')},
     { path: "/payroll-hist", component: PayrollHist},
     { path: "/pph21", component: PPh21 },
+    { path: "/attendance-request", component: AttendanceReq },
+    { path: "/company-setup", component: CompanyProfile },
     // { path: "/dashApp", component: DashApp},
     // { path: "/leavehist", component: LeaveHistory},
     // { path: "/loginapp", component: LoginApp},

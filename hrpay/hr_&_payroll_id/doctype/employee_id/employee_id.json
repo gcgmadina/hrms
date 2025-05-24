@@ -12,6 +12,7 @@
   "date_of_birth",
   "marital_status",
   "dependents",
+  "pph21_category",
   "tariff_pph21",
   "job_position",
   "department",
@@ -122,11 +123,16 @@
    "label": "Role Profile",
    "options": "Role Profile",
    "reqd": 1
+  },
+  {
+   "fieldname": "pph21_category",
+   "fieldtype": "Data",
+   "label": "PPh21 Category"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-13 18:04:55.873851",
+ "modified": "2025-05-23 19:08:37.884943",
  "modified_by": "Administrator",
  "module": "HR & Payroll ID",
  "name": "Employee ID",

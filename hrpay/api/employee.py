@@ -40,6 +40,24 @@ def create_employee(data):
         except:
             dependents = []
 
+@frappe.whitelist()
+def new_id():
+    from datetime import datetime
+
+    today = datetime.today()
+    year = today.strftime("%Y")
+    month = today.strftime("%m")
+
+    # Hitung jumlah employee yang dibuat bulan ini
+    prefix = f"{year}{month}"
+    like_pattern = f"EMP-{prefix}-%"
+    count = frappe.db.count("Employee ID", {"id": ["like", like_pattern]})
+
+    new_number = str(count + 1).zfill(4)
+    full_id = f"EMP-{prefix}-{new_number}"
+
+    return {"new_id": full_id}
+
     # --- Buat Employee ID
     employee = frappe.get_doc({
         "doctype": "Employee ID",
