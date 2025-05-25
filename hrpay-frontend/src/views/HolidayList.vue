@@ -1,95 +1,56 @@
-<!-- src/views/HolidayManager.vue -->
 <template>
   <div class="holiday-manager">
-    <h2>Daftar Hari Libur</h2>
+    <h2>Holiday List</h2>
     <ul>
-      <li v-for="list in holidayLists" :key="list.name" @click="fetchDetails(list.name)">
-        {{ list.name }}
+      <li v-for="holiday in holidayList" :key="holiday.name" @click="selectedHoliday = holiday">
+        {{ holiday.description || holiday.name }}
       </li>
     </ul>
 
-    <div v-if="selectedList">
-      <h3>Detail Holiday: {{ selectedList }}</h3>
+    <div v-if="selectedHoliday">
+      <h3>Details: {{ selectedHoliday.description || selectedHoliday.name }}</h3>
       <table>
         <thead>
           <tr>
-            <th>Tanggal</th>
-            <th>Deskripsi</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Description</th>
+            <th>Not Fixed?</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="holiday in holidays" :key="holiday.holiday_date">
-            <td>{{ holiday.holiday_date }}</td>
-            <td>{{ holiday.description }}</td>
+          <tr>
+            <td>{{ selectedHoliday.start_date }}</td>
+            <td>{{ selectedHoliday.end_date }}</td>
+            <td>{{ selectedHoliday.description }}</td>
+            <td>{{ selectedHoliday.is_not_fixed ? '✔' : '' }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <button @click="$router.push('/add-holiday')">Add Holiday</button>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import frappeCall from "@/utils/frappeCall.js";
-import Holiday from '@/components/Holiday.vue'
+import { getHolidays } from '../../../hrpay/api/holiday'
 
-const holidayLists = ref([])
-const selectedList = ref(null)
-const holidays = ref([])
+const holidayList = ref([])
+const selectedHoliday = ref(null)
 
-// Fetch all holiday list
-const fetchHolidayLists = async () => {
-  try {
-    const res = await frappeCall('frappe.client.get_list', {
-      doctype: 'Holiday List',
-      fields: ['name'],
-      limit_page_length: 20
-    })
-    holidayLists.value = res.message
-  } catch (err) {
-    console.error("Gagal memuat holiday list", err)
-  }
+const loadHolidays = async () => {
+  const res = await getHolidays()
+  holidayList.value = res.message
 }
 
-// Fetch detail for selected holiday list
-const fetchDetails = async (name) => {
-  selectedList.value = name
-  try {
-    const res = await frappeCall('frappe.client.get', {
-      doctype: 'Holiday List',
-      name
-    })
-    holidays.value = res.message.holidays || []
-  } catch (err) {
-    console.error("Gagal memuat detail", err)
-  }
-}
-
-onMounted(fetchHolidayLists)
+onMounted(loadHolidays)
 </script>
 
 <style scoped>
-.holiday-manager {
-  padding: 20px;
-}
-ul {
-  padding-left: 20px;
-}
-li {
-  cursor: pointer;
-  margin-bottom: 5px;
-  color: #2196f3;
-}
-li:hover {
-  text-decoration: underline;
-}
-table {
+button {
   margin-top: 20px;
-  border-collapse: collapse;
-  width: 100%;
-}
-th, td {
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+  padding: 6px 12px;
 }
 </style>

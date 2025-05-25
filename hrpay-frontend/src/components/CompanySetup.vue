@@ -1,15 +1,27 @@
 <template>
   <div>
-    <h3>Setup Perusahaan</h3>
+    <h3>Company Profile Setup</h3>
 
-    <label>Nama Perusahaan:</label>
-    <input type="text" v-model="company.name" />
+    <label>Company Name:</label>
+    <input type="text" v-model="company.company_name" />
 
-    <label>Alamat:</label>
-    <input type="text" v-model="company.address" />
+    <label>country:</label>
+    <input type="text" v-model="company.country" />
 
-    <label>Nomor Telepon:</label>
-    <input type="text" v-model="company.phone" />
+    <label>Phone:</label>
+    <input type="text" v-model="company.phone_no" />
+
+    <label>Email:</label>
+    <input type="text" v-model="company.email" />
+
+    <label>Currency:</label>
+    <input type="text" v-model="company.default_currency" />
+
+    <label>Description:</label>
+    <input type="text" v-model="company.company_description" />
+
+    <label>Logo:</label>
+    <input type="text" v-model="company.company_logo" />
 
     <button @click="saveCompanyInfo">Simpan</button>
   </div>
@@ -22,24 +34,44 @@ export default {
   data() {
     return {
       company: {
-        name: "",
-        address: "",
-        phone: "",
+        company_name: "",
+        country: "",
+        phone_no: "",
+        email: "",
+        default_currency: "",
+        company_description: "",
+        company_logo: ""
       },
     };
   },
   async mounted() {
-    this.company = await getCompanyInfo();
-  },
-  methods: {
-    async saveCompanyInfo() {
-      const response = await updateCompanyInfo(this.company);
-      if (response) {
-        alert("Informasi perusahaan berhasil diperbarui!");
-      } else {
-        alert("Gagal memperbarui informasi perusahaan.");
-      }
-    },
+    const companyName = decodeURIComponent(this.$route.params.companyName);
+
+    if (companyName === "new") {
+      // Mode tambah data
+      this.company = {
+        company_name: "",
+        country: "",
+        phone_no: "",
+        email: "",
+        default_currency: "",
+        company_description: "",
+        company_logo: ""
+      };
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8000/api/resource/Company/${companyName}`, {
+        credentials: "include"
+      });
+      if (!response.ok) throw new Error(`Company ${companyName} not found`);
+      const data = await response.json();
+      this.company = data.data;
+    } catch (error) {
+      console.error("Error fetching company:", error);
+      alert("Perusahaan tidak ditemukan.");
+    }
   },
 };
 </script>

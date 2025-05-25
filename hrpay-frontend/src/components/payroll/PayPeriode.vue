@@ -6,13 +6,13 @@
       >
     </button>
 
-    <h2>Riwayat Payroll Periode</h2>
+    <h2>Payroll Period History</h2>
     <table>
       <thead>
         <tr>
-          <th>Nama Periode</th>
-          <th>Tanggal Mulai</th>
-          <th>Tanggal Akhir</th>
+          <th>Period Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
         </tr>
       </thead>
       <tbody>
@@ -52,7 +52,7 @@ export default {
       }
     });
 
-    if (!response.ok) throw new Error("Gagal mengambil data payroll periode!");
+    if (!response.ok) throw new Error("Error fetching periods!");
 
     const data = await response.json();
     this.payrollPeriods = data.data;

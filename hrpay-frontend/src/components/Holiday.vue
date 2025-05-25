@@ -1,69 +1,31 @@
-<!-- form add holiday -->
 <template>
-  <form @submit.prevent="submitForm">
-    <div>
-      <label for="holiday_date">Tanggal</label>
-      <input type="date" v-model="form.holiday_date" required />
-    </div>
-
-    <div>
-      <label for="description">Deskripsi</label>
-      <input type="text" v-model="form.description" required />
-    </div>
-
-    <div>
-      <label for="holiday_list">Holiday List</label>
-      <select v-model="form.holiday_list" required>
-        <option v-for="list in holidayLists" :key="list.name" :value="list.name">
-          {{ list.name }}
-        </option>
-      </select>
-    </div>
-
-    <button type="submit">Tambah Hari Libur</button>
-  </form>
+  <div>
+    <h2>Add Holiday</h2>
+    <form @submit.prevent="submitForm">
+      <label>Start Date: <input type="date" v-model="form.start_date" required /></label><br/>
+      <label>End Date: <input type="date" v-model="form.end_date" /></label><br/>
+      <label>Description: <input type="text" v-model="form.description" /></label><br/>
+      <label><input type="checkbox" v-model="form.is_not_fixed" /> Not Fixed</label><br/>
+      <button type="submit">Save</button>
+    </form>
+  </div>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue'
-import frappeCall from "@/utils/frappeCall.js";
+<script setup>
+import { ref } from 'vue'
+import { addHoliday } from '../../../hrpay/api/holiday'
+import { useRouter } from 'vue-router'
 
-export default {
-  setup() {
-    const form = ref({
-      holiday_date: '',
-      description: '',
-      holiday_list: ''
-    })
+const router = useRouter()
+const form = ref({
+  start_date: '',
+  end_date: '',
+  description: '',
+  is_not_fixed: false,
+})
 
-    const holidayLists = ref([])
-
-    const fetchHolidayLists = async () => {
-      const res = await frappeCall('hrpay.api.holiday.get_holiday_lists')
-      holidayLists.value = res.message || res
-    }
-
-    const submitForm = async () => {
-      await frappeCall('hrpay.api.holiday.add_holiday', form.value)
-      alert('Hari libur berhasil ditambahkan!')
-      form.value = { holiday_date: '', description: '', holiday_list: '' }
-    }
-
-    onMounted(fetchHolidayLists)
-
-    return {
-      form,
-      holidayLists,
-      submitForm
-    }
-  }
+const submitForm = async () => {
+  await addHoliday(form.value)
+  router.push('/holiday')
 }
 </script>
-
-<style scoped>
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-</style>

@@ -1,15 +1,12 @@
 <template>
-  <Layout v-if="isLoggedIn && $route.path !== '/form'">
-    <router-view />
-  </Layout>
-  <router-view v-else />
+  <router-view />
 </template>
 
 <script setup>
 import { ref, onMounted ,onUpdated } from "vue";
-import Layout from "./components/Layout.vue";
 
-import hljs from 'highlight.js'
+
+import * as hljs from 'highlight.js'
 import 'highlight.js/styles/github.css' // ganti dengan tema lain kalau mau
 
 const highlightAll = () => {
@@ -27,7 +24,7 @@ onMounted(() => {
   isLoggedIn.value = status === "true";
   console.log("Status Login di App.vue:", isLoggedIn.value); // Debugging lagi
 
-  highlightAll
+  highlightAll()
 });
-onUpdated(highlightAll) // kalau pakai router, ini penting biar halaman baru tetap ke-highlight
+onUpdated(highlightAll) 
 </script>

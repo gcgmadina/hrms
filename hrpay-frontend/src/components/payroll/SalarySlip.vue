@@ -12,10 +12,10 @@
       <table>
         <thead>
           <tr>
-            <th>Nama Karyawan</th>
-            <th>Periode</th>
-            <th>Gaji Bersih</th>
-            <th>Aksi</th>
+            <th>Employee</th>
+            <th>Period</th>
+            <th>Net</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -24,7 +24,7 @@
             <td>{{ slip.period }}</td>
             <td>{{ formattedCurrency(slip.net_salary) }}</td>
             <td>
-              <button @click="viewSlipDetails(slip)">Lihat Detail</button>
+              <button @click="viewSlipDetails(slip)">See Details..</button>
               <button @click="requestPrint(slip)">Request</button>
             </td>
           </tr>
@@ -35,11 +35,11 @@
     <!-- Pop-up Detail Salary Slip -->
     <div v-if="selectedSalarySlip" class="popup">
       <div class="popup-content">
-        <h2>Detail Slip Gaji - {{ selectedSalarySlip.employee_name }}</h2>
-        <p><strong>Periode:</strong> {{ selectedSalarySlip.period }}</p>
-        <p><strong>Gaji Bersih:</strong> {{ formattedCurrency(selectedSalarySlip.net_salary) }}</p>
+        <h2>Detail - {{ selectedSalarySlip.employee_name }}</h2>
+        <p><strong>Period:</strong> {{ selectedSalarySlip.period }}</p>
+        <p><strong>Net:</strong> {{ formattedCurrency(selectedSalarySlip.net_salary) }}</p>
 
-        <h3>Rincian Pendapatan</h3>
+        <h3>Earning Details</h3>
         <ul>
           <li v-for="earning in selectedSalarySlip.earnings" :key="earning.name">
             {{ earning.name }} - {{ formattedCurrency(earning.amount) }}

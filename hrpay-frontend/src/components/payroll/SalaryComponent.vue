@@ -1,8 +1,8 @@
 <template>
   <div class="p-6">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-2xl font-semibold">Komponen Gaji</h2>
-      <button class="btn-primary" @click="openAdd">+ Tambah Komponen</button>
+      <h2 class="text-2xl font-semibold">Salary Component</h2>
+      <button class="btn-primary" @click="openAdd">+ Add</button>
     </div>
 
     <!-- List Komponen Gaji -->
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-gray-500">Belum ada komponen gaji</div>
+    <div v-else class="text-gray-500">No Data</div>
 
     <!-- Modal Form -->
     <SalaryComponentForm

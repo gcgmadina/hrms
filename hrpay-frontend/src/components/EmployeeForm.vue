@@ -130,7 +130,7 @@ export default {
 <template>
   <div class="employee-form">
     <div class="header">
-      <h2 class="text-xl font-semibold text-center mb-4">Tambah Karyawan Baru</h2>
+      <h2 class="text-xl font-semibold text-center mb-4">New Employee</h2>
     </div>
 
     <form @submit.prevent="handleSubmit">
@@ -155,7 +155,7 @@ export default {
           <div class="form-group">
             <label>Marital Status</label>
             <select v-model="form.marital_status" required @change="updateTaxDetails">
-              <option value="">-- Pilih Status --</option>
+              <option value="">-- Choose --</option>
               <option value="Single">Single</option>
               <option value="Married">Married</option>
             </select>
@@ -164,7 +164,7 @@ export default {
           <DependentsTab :maritalStatus="form.marital_status" @dependentsUpdated="updateDependants" />
           
           <div class="form-group">
-            <label>PPh21 Kategori</label>
+            <label>PPh21 Category</label>
             <input v-model="form.pph21_category" readonly />
           </div>
 

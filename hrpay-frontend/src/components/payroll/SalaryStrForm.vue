@@ -1,19 +1,19 @@
 <template>
   <div class="container">
-    <h2>Tambah Salary Structure</h2>
+    <h2>Create Salary Structure</h2>
     <form @submit.prevent="submitSalaryStructure">
-      <label for="name">Nama Struktur:</label>
-      <input type="text" v-model="salaryStructure.name" placeholder="Contoh: Struktur Gaji Karyawan" required>
+      <label for="name">Structure Name:</label>
+      <input type="text" v-model="salaryStructure.name" placeholder="E.g: Intern" required>
 
-      <label for="component">Komponen Gaji:</label>
+      <label for="component">Component:</label>
       <select v-model="salaryStructure.component" required>
         <option v-for="component in components" :key="component.name" :value="component.name">
           {{ component.component_name }}
         </option>
       </select>
 
-      <label for="basicSalary">Gaji Pokok:</label>
-      <input type="number" v-model="salaryStructure.basicSalary" placeholder="Masukkan nominal gaji" required>
+      <label for="basicSalary">Base:</label>
+      <input type="number" v-model="salaryStructure.basicSalary" placeholder="nominal" required>
 
       <button type="submit">SAVE (Draft)</button>
     </form>
@@ -48,7 +48,7 @@ export default {
         });
 
         if (!response.ok) {
-          throw new Error("Gagal mengambil data salary component!");
+          throw new Error("Error fetching salary component!");
         }
 
         const data = await response.json();
@@ -62,7 +62,7 @@ export default {
     async submitSalaryStructure() {
       // Validasi input
       if (!this.salaryStructure.name || !this.salaryStructure.component || this.salaryStructure.basicSalary <= 0) {
-        alert("Semua field harus diisi dengan benar!");
+        alert("Fill the required field!");
         return;
       }
 
@@ -86,11 +86,11 @@ export default {
         });
 
         if (!response.ok) {
-          throw new Error("Gagal menyimpan salary structure!");
+          throw new Error("Failed!");
         }
 
         const data = await response.json();
-        alert(`Salary Structure "${this.salaryStructure.name}" berhasil disimpan sebagai Draft!`);
+        alert(`Salary Structure "${this.salaryStructure.name}" saved as Draft!`);
         console.log(data);
 
         // Reset form setelah submit

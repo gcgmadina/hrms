@@ -21,7 +21,7 @@ export async function addHoliday(holidayData) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify(holidayData),
+            body: JSON.stringify({ data: JSON.stringify(holidayData) }), // ⬅ double JSON!
         });
 
         if (!response.ok) throw new Error("Failed to add holiday");
@@ -29,6 +29,22 @@ export async function addHoliday(holidayData) {
         return data;
     } catch (error) {
         console.error("Error adding holiday:", error);
+        return null;
+    }
+}
+
+export async function deleteHoliday(name) {
+    try {
+        const response = await fetch(`${API_URL}.delete_holiday?docname=${name}`, {
+            method: "POST",
+            credentials: "include",
+        });
+
+        if (!response.ok) throw new Error("Failed to delete holiday");
+        const data = await response.json();
+        return data.message;
+    } catch (error) {
+        console.error("Error deleting holiday:", error);
         return null;
     }
 }

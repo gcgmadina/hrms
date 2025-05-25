@@ -1,41 +1,37 @@
 <template>
-  <div class="dashboard" v-if="isLoggedIn && $route.path !== '/form'">
+  <div v-if="isLoggedIn && $route.path !== '/form'" class="dashboard">
     <Sidebar />
     <div class="main">
       <Navbar />
       <div class="content">
-        <slot /> <!-- Tempat isi halaman -->
+        <router-view /> 
       </div>
     </div>
   </div>
+
   <div v-else>
-    <slot /> <!-- Tampilan tanpa sidebar/navbar -->
+    <router-view /> 
   </div>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue';
-import { useRouter } from "vue-router";
-import Sidebar from '../components/Sidebar.vue';
-import Navbar from '../components/Navbar.vue';
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const isLoggedIn = ref(false);
-const router = useRouter();
+import Sidebar from '../components/Sidebar.vue'
+import Navbar from '../components/Navbar.vue'
 
-const logout = () => {
-  localStorage.removeItem("isLoggedIn"); // Hapus status login
-  router.push("/login"); // Kembali ke halaman login
-};
+const isLoggedIn = ref(false)
+const route = useRoute()
+const router = useRouter()
 
 onMounted(() => {
-   isLoggedIn.value = localStorage.getItem("isLoggedIn") === "true";
-  console.log("Status Login:", isLoggedIn.value);   
-});
+  isLoggedIn.value = localStorage.getItem('isLoggedIn') === 'true'
+  console.log("Status Login (Layout.vue):", isLoggedIn.value)
+})
 
-export default {
-  components: {
-    Sidebar,
-    Navbar
-  }
-};
+const logout = () => {
+  localStorage.removeItem('isLoggedIn')
+  router.push('/login')
+}
 </script>

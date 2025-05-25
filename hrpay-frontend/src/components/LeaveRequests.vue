@@ -5,13 +5,13 @@
       <i class="fas fa-arrow-left"></i> Back
     </button>
 
-    <h1>Daftar Pengajuan Cuti</h1>
+    <h1>Leave Request(s)</h1>
 
     <!-- Filter Sorting -->
     <div class="filters">
       <label for="status">Status:</label>
       <select id="status" v-model="selectedStatus" @change="filterRequests">
-        <option value="">Semua</option>
+        <option value="">All</option>
         <option value="Accepted">Accepted</option>
         <option value="Rejected">Rejected</option>
         <option value="Pending">Pending</option>
@@ -23,11 +23,11 @@
       <table>
         <thead>
           <tr>
-            <th>Nama Karyawan</th>
-            <th>Jenis Cuti</th>
-            <th>Periode</th>
+            <th>Name</th>
+            <th>Leave Type</th>
+            <th>Period</th>
             <th>Status</th>
-            <th>Aksi</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@
             <td>{{ request.from_date }} - {{ request.to_date }}</td>
             <td :class="statusClass(request.status)">{{ request.status }}</td>
             <td>
-              <button @click="viewRequestDetails(request)">Lihat Detail</button>
+              <button @click="viewRequestDetails(request)">See Detail</button>
             </td>
           </tr>
         </tbody>
@@ -46,23 +46,23 @@
 
     <!-- Jika Tidak Ada Data -->
     <div v-else>
-      <p>Tidak ada pengajuan cuti.</p>
+      <p>No Requests.</p>
     </div>
 
     <!-- Pop-up Detail Request -->
     <div v-if="selectedRequest" class="popup">
       <div class="popup-content">
-        <h2>Detail Pengajuan - {{ selectedRequest.employee_name }}</h2>
-        <p><strong>Jenis Cuti:</strong> {{ selectedRequest.leave_type }}</p>
-        <p><strong>Periode:</strong> {{ selectedRequest.from_date }} - {{ selectedRequest.to_date }}</p>
+        <h2>Details - {{ selectedRequest.employee_name }}</h2>
+        <p><strong>Leave Type:</strong> {{ selectedRequest.leave_type }}</p>
+        <p><strong>Period:</strong> {{ selectedRequest.from_date }} - {{ selectedRequest.to_date }}</p>
         <p><strong>Status:</strong> <span :class="statusClass(selectedRequest.status)">{{ selectedRequest.status }}</span></p>
-        <p><strong>Deskripsi:</strong> {{ selectedRequest.description }}</p>
+        <p><strong>Description:</strong> {{ selectedRequest.description }}</p>
 
-        <h3>Lampiran:</h3>
+        <h3>Attachment:</h3>
         <p v-if="selectedRequest.attachment">
-          <a :href="selectedRequest.attachment" target="_blank">Lihat Lampiran</a>
+          <a :href="selectedRequest.attachment" target="_blank">See Attachment</a>
         </p>
-        <p v-else>Tidak ada lampiran</p>
+        <p v-else>No Attachment</p>
 
         <button @click="updateStatus(selectedRequest, 'Accepted')">Accept</button>
         <button @click="updateStatus(selectedRequest, 'Rejected')">Reject</button>

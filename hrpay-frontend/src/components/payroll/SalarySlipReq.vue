@@ -9,9 +9,9 @@
 
     <!-- Filter Sorting -->
     <div class="filters">
-      <label for="period">Periode:</label>
+      <label for="period">Period:</label>
       <select id="period" v-model="selectedPeriod" @change="filterRequests">
-        <option value="">Semua</option>
+        <option value="">All</option>
         <option v-for="period in periods" :key="period.name" :value="period.name">
           {{ period.name }}
         </option>
@@ -19,7 +19,7 @@
 
       <label for="status">Status:</label>
       <select id="status" v-model="selectedStatus" @change="filterRequests">
-        <option value="">Semua</option>
+        <option value="">All</option>
         <option value="Accepted">Accepted</option>
         <option value="Rejected">Rejected</option>
         <option value="Pending">Pending</option>
@@ -31,11 +31,11 @@
       <table>
         <thead>
           <tr>
-            <th>Nama Karyawan</th>
-            <th>Periode</th>
+            <th>Employee</th>
+            <th>Period</th>
             <th>Status</th>
-            <th>Tanggal Request</th>
-            <th>Aksi</th>
+            <th>Request Date</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -45,7 +45,7 @@
             <td :class="statusClass(request.status)">{{ request.status }}</td>
             <td>{{ formatDate(request.request_date) }}</td>
             <td>
-              <button @click="viewRequestDetails(request)">Lihat Detail</button>
+              <button @click="viewRequestDetails(request)">See Details</button>
             </td>
           </tr>
         </tbody>
@@ -54,24 +54,24 @@
 
     <!-- Jika Tidak Ada Data -->
     <div v-else>
-      <p>Tidak ada permintaan cetak slip gaji.</p>
+      <p>No Data.</p>
     </div>
 
     <!-- Pop-up Detail Request -->
     <div v-if="selectedRequest" class="popup">
       <div class="popup-content">
-        <h2>Detail Request - {{ selectedRequest.employee_name }}</h2>
-        <p><strong>Periode:</strong> {{ selectedRequest.period }}</p>
+        <h2>Request Detail - {{ selectedRequest.employee_name }}</h2>
+        <p><strong>Period:</strong> {{ selectedRequest.period }}</p>
         <p><strong>Status:</strong> <span :class="statusClass(selectedRequest.status)">{{ selectedRequest.status }}</span></p>
-        <p><strong>Tanggal Request:</strong> {{ formatDate(selectedRequest.request_date) }}</p>
-        <p><strong>Keperluan:</strong> {{ selectedRequest.purpose }}</p>
-        <p><strong>Alasan:</strong> {{ selectedRequest.reason }}</p>
+        <p><strong>Request Date:</strong> {{ formatDate(selectedRequest.request_date) }}</p>
+        <p><strong>Purpose:</strong> {{ selectedRequest.purpose }}</p>
+        <p><strong>Reason:</strong> {{ selectedRequest.reason }}</p>
 
-        <h3>Lampiran:</h3>
+        <h3>Attachment:</h3>
         <p v-if="selectedRequest.attachment">
           <a :href="selectedRequest.attachment" target="_blank">Lihat Lampiran</a>
         </p>
-        <p v-else>Tidak ada lampiran</p>
+        <p v-else>No Attachment</p>
 
         <button @click="updateStatus(selectedRequest, 'Accepted')">Accept</button>
         <button @click="updateStatus(selectedRequest, 'Rejected')">Reject</button>

@@ -6,15 +6,15 @@
     </div>
 
     <div class="card">
-      <h2>Daftar Permintaan WFH/WFA</h2>
+      <h2>WFH/WFA Requests</h2>
 
       <table>
         <thead>
           <tr>
-            <th>Nama Karyawan</th>
-            <th>Tanggal</th>
-            <th>Jenis Request</th>
-            <th>Alasan</th>
+            <th>Employee</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Desc</th>
             <th>Status</th>
           </tr>
         </thead>

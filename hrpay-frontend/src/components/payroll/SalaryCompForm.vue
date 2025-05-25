@@ -8,26 +8,26 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-        <label>Nama Komponen</label>
+        <label>Name</label>
         <input v-model="form.componentName" type="text" class="input-field" required />
       </div>
 
       <div>
-        <label>Jenis</label>
+        <label>Type</label>
         <select v-model="form.type" class="input-field">
-          <option value="Earning">Pendapatan (Earning)</option>
-          <option value="Deduction">Potongan (Deduction)</option>
-          <option value="Incentives">Insentif (Incentives)</option>
+          <option value="Earning">Earning</option>
+          <option value="Deduction">Deduction</option>
+          <option value="Incentives">Incentives</option>
         </select>
       </div>
 
       <div>
-        <label>Kode Komponen</label>
+        <label>Component ID</label>
         <input v-model="form.code" type="text" class="input-field" required />
       </div>
 
       <div>
-        <label>Jumlah Tetap?</label>
+        <label>Fixed Amount?</label>
         <select v-model="form.isFixed" class="input-field">
           <option :value="1">Ya</option>
           <option :value="0">Tidak</option>
@@ -35,9 +35,9 @@
       </div>
 
       <div>
-        <label>Jumlah (Amount)</label>
+        <label>Amount</label>
         <div class="relative">
-          <input v-model.number="form.amount" type="number" class="input-field pr-10" placeholder="Masukkan nominal atau persentase" />
+          <input v-model.number="form.amount" type="number" class="input-field pr-10" placeholder="Nominal or Percentage" />
           <span class="absolute right-3 top-2.5 text-gray-500">
             {{ form.isPercentage ? '%' : 'Rp' }}
           </span>
@@ -46,12 +46,12 @@
 
       <div class="flex items-center space-x-2">
         <input id="isPercentage" v-model="form.isPercentage" type="checkbox" />
-        <label for="isPercentage" class="text-sm">Gunakan Persentase (%)</label>
+        <label for="isPercentage" class="text-sm">Percentage (%)</label>
       </div>
     </div>
 
     <div class="flex justify-end mt-4 space-x-2">
-      <button class="btn-secondary" @click="$emit('close')">Batal</button>
+      <button class="btn-secondary" @click="$emit('close')">Cancel</button>
       <button class="btn-primary" @click="submitForm">
         {{ editData ? 'Update' : 'Simpan' }}
       </button>

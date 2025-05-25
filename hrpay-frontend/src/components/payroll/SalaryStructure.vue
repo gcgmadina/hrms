@@ -8,16 +8,16 @@
       <table>
         <thead>
           <tr>
-            <th>Nama Komponen</th>
+            <th>Components</th>
             <th>Nominal</th>
-            <th>Persentase</th>
-            <th>Aksi</th>
+            <th>Percentage</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(component, index) in salaryComponents" :key="index">
             <td>
-              <input type="text" v-model="component.name" placeholder="Nama Komponen" readonly />
+              <input type="text" v-model="component.name" placeholder="E.g: Base" readonly />
             </td>
             <td>
               <input type="number" v-model.number="component.amount" @change="confirmEdit(index)" />
@@ -26,16 +26,16 @@
               <input type="number" v-model.number="component.percentage" @input="calculateAmount(index)" />
             </td>
             <td>
-              <button type="button" @click="removeComponent(index)">Hapus</button>
+              <button type="button" @click="removeComponent(index)">Remove</button>
             </td>
           </tr>
         </tbody>
       </table>
-      <button type="button" @click="addComponent">Tambah Komponen</button>
+      <button type="button" @click="addComponent">Add Component</button>
     </div>
 
     <!-- Tombol Simpan -->
-    <button type="submit" @click="submitSalaryStructure">Simpan Salary Structure</button>
+    <button type="submit" @click="submitSalaryStructure">Save</button>
   </div>
 </template>
 
@@ -74,7 +74,7 @@ export default {
       }
     },
     confirmEdit(index) {
-      if (!confirm("Apakah Anda yakin ingin mengubah nominal ini?")) {
+      if (!confirm("Change the amount?")) {
         this.salaryComponents[index].amount = this.defaultSalaryComponents[index].amount;
       }
     },
@@ -95,14 +95,14 @@ export default {
 
         const result = await response.json();
         if (response.ok) {
-          alert("Salary Structure berhasil disimpan!");
+          alert("Salary Structure saved!");
           console.log(result);
         } else {
-          alert("Gagal menyimpan Salary Structure: " + result.message);
+          alert("Failed saving Salary Structure: " + result.message);
         }
       } catch (error) {
         console.error("Error:", error);
-        alert("Terjadi kesalahan saat menyimpan Salary Structure.");
+        alert("Error while saving Salary Structure.");
       }
     }
   },

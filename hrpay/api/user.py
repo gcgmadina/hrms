@@ -4,7 +4,12 @@ from frappe.utils.password import update_password
 from frappe import _
 
 @frappe.whitelist()
-def add_user(full_name, email, password, role):
+def add_user(full_name, email, password, roles):
+    import json
+    # roles akan dikirim sebagai string JSON dari frontend, jadi parse dulu
+    if isinstance(roles, str):
+        roles = json.loads(roles)
+
     if frappe.db.exists("User", email):
         return {"message": "User already exists"}
 
@@ -19,7 +24,8 @@ def add_user(full_name, email, password, role):
     })
     user.insert(ignore_permissions=True)
 
-    # Assign role
-    user.add_roles(role)
+    # Assign multiple roles
+    for role in roles:
+        user.add_roles(role)
 
     return {"message": "ok"}

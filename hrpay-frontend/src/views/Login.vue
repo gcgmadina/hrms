@@ -67,19 +67,6 @@ const login = async () => {
 </script>
 
 <style scoped>
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f6f8;
-}
-
 .page-container {
   display: flex;
   height: 100vh;
@@ -141,21 +128,6 @@ label {
   font-size: 14px;
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 15px;
-  background-color: #fff;
-  transition: border-color 0.3s ease;
-}
-
-input:focus {
-  outline: none;
-  border-color: #0077b6;
-}
-
 .login-button {
   width: 100%;
   margin-top: 24px;
@@ -174,7 +146,7 @@ input:focus {
   background-color: #005f8c;
 }
 
-/* Mobile Styles */
+/* Mobile */
 @media (max-width: 768px) {
   .page-container {
     flex-direction: column;

@@ -1,21 +1,21 @@
 <template>
   <div class="container">
-    <h2>Tambah Payroll Periode</h2>
+    <h2>New Payroll Period</h2>
     <form @submit.prevent="submitPayrollPeriod">
-      <label for="periode">Nama Periode:</label>
+      <label for="periode">Period Name:</label>
       <input
         type="text"
         v-model="payroll.periode"
-        placeholder="Contoh: Payroll Maret 2025"
+        placeholder="E.g: March 2025"
         required
         @focus="manualEdit = true"
         @blur="updatePeriode"
       >
 
-      <label for="startDate">Tanggal Mulai:</label>
+      <label for="startDate">Start Date:</label>
       <input type="date" v-model="payroll.start_date" required>
 
-      <label for="endDate">Tanggal Selesai:</label>
+      <label for="endDate">End Date:</label>
       <input type="date" v-model="payroll.end_date" required>
 
       <label for="exchangeRate">Exchange Rate:</label>
@@ -102,15 +102,15 @@ const submitPayrollPeriod = async () => {
     console.log("Response data:", data)
 
     if (response.ok) {
-      alert("Payroll periode berhasil ditambahkan!")
+      alert("Success!")
       emit('periodeAdded')
       router.push('/payroll-entry')
     } else {
-      throw new Error(data.message || "Gagal menambahkan payroll periode.")
+      throw new Error(data.message || "Failed!")
     }
   } catch (error) {
-    console.error("Error terjadi:", error)
-    alert("Terjadi kesalahan saat submit payroll.")
+    console.error("Error:", error)
+    alert("Something went wrong when submitting payroll.")
   }
 }
 

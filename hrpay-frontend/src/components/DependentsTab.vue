@@ -1,13 +1,13 @@
 <template>
   <div class="dependent-container">
-    <h3 class="title">Tanggungan</h3>
+    <h3 class="title">Dependents </h3>
 
     <table class="dependent-table">
       <thead>
         <tr>
-          <th>Nama</th>
-          <th>Hubungan</th>
-          <th>Aksi</th>
+          <th>Name</th>
+          <th>Relation</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -15,7 +15,7 @@
           <td>{{ dependent.name }}</td>
           <td>{{ dependent.relationship }}</td>
           <td>
-            <button class="delete-btn" @click="removeDependent(index)">Hapus</button>
+            <button class="delete-btn" @click="removeDependent(index)">Remove</button>
           </td>
         </tr>
       </tbody>
@@ -24,13 +24,12 @@
     <div class="form-row">
       <input type="text" v-model="newDependent.name" placeholder="Nama Tanggungan" class="input-field"/>
       <select v-model="newDependent.relationship" class="input-dropdown">
-        <option value="anak">Anak</option>
-        <option v-if="maritalStatus === 'Married'" value="istri">Istri</option>
-        <option v-if="maritalStatus === 'Married'" value="suami">Suami</option>
-        <option value="orang tua">Orang Tua</option>
-        <option value="lainnya">Lainnya</option>
+        <option value="anak">Child</option>
+        <option v-if="maritalStatus === 'Married'" value="istri">Wife</option>
+        <option v-if="maritalStatus === 'Married'" value="suami">Husband</option>
+        <option value="lainnya">Other...</option>
       </select>
-      <button class="add-btn" @click="addDependent">Tambah</button>
+      <button class="add-btn" @click="addDependent">Add</button>
     </div>
   </div>
 </template>

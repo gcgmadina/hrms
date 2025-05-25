@@ -21,14 +21,14 @@
 
     <!-- Pilih Daftar Karyawan -->
     <div class="form-group">
-      <label>Pilih Karyawan:</label>
+      <label>Employee(s):</label>
       <table>
         <thead>
           <tr>
-            <th>Pilih</th>
-            <th>Nama</th>
-            <th>Jabatan</th>
-            <th>Gaji Pokok</th>
+            <th>Select</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Base</th>
           </tr>
         </thead>
         <tbody>
@@ -111,7 +111,7 @@ export default {
       }
     });
 
-    if (!response.ok) throw new Error("Gagal mengambil data karyawan");
+    if (!response.ok) throw new Error("Error fetching employees");
 
     const result = await response.json();
     this.employees = result.data;

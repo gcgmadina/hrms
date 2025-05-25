@@ -1,5 +1,4 @@
 <template>
-  <layout>
     <div>
       <h1>Employee</h1>
       <div class="button-group">
@@ -7,17 +6,14 @@
       </div>
       <EmployeeList ref="employeeList" />
     </div>
-  </layout>
 </template>
 
 <script>
 import EmployeeList from "../components/EmployeeList.vue";
-import Layout from "../components/Layout.vue";
 
 export default {
   components: {
-    EmployeeList,
-    Layout
+    EmployeeList
   },
   methods: {
     refreshList() {

@@ -2,6 +2,7 @@
   <header class="navbar">
     <input type="text" placeholder="Cari..." v-model="searchQuery" @input="handleSearch" />
   </header>
+  <button @click="$emit('logout')">Logout</button>
 </template>
 
 <script setup>

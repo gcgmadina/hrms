@@ -11,22 +11,22 @@
 
         <div class="mt-4 space-y-2">
           <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('PayPeriode')">
-            Riwayat Periode
+            Period History
           </button>
           <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('PayrollHist')">
-            Riwayat Payroll
+            Payroll History
           </button>
           <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('SalaryComponent')">
-            Komponen Gaji
+            Salary Component
           </button>
           <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('SalaryStructure')">
-            Struktur Gaji
+            Salary Structure
           </button>
           <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('SalarySlip')">
-            Riwayat Slip Gaji
+            Salary Slip
           </button>
           <hr class="my-4 border-gray-300" />
-          <div class="font-semibold mt-4">Pajak Penghasilan</div>
+          <div class="font-semibold mt-4">Income Tax</div>
           <button class="flat-btn w-full text-left px-4 py-2 rounded-md" @click="changeView('Pph21')">
             PPH 21
           </button>

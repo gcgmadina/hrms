@@ -5,10 +5,10 @@
       class="mb-4 px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-xl shadow"
       >
     </button>
-    <h1>Riwayat Payroll</h1>
+    <h1>Payroll History</h1>
 
     <div class="filters">
-      <label for="periode">Periode:</label>
+      <label for="periode">Period:</label>
       <select id="periode" v-model="selectedPeriod" @change="filterPayrolls">
         <option value="">Semua</option>
         <option v-for="period in periods" :key="period.name" :value="period.name">
@@ -21,10 +21,10 @@
       <table>
         <thead>
           <tr>
-            <th>Periode</th>
-            <th>Total Payroll</th>
+            <th>Period</th>
+            <th>Total </th>
             <th>Status</th>
-            <th>Aksi</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -33,14 +33,14 @@
             <td>{{ formattedCurrency(payroll.total_amount) }}</td>
             <td :class="statusClass(payroll.status)">{{ payroll.status }}</td>
             <td>
-              <button @click="viewPayrollDetails(payroll)">Lihat Detail</button>
+              <button @click="viewPayrollDetails(payroll)">See Details..</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <div v-else>
-      <p>Tidak ada riwayat payroll untuk periode ini.</p>
+      <p>No Records.</p>
     </div>
   </div>
 </template>
