@@ -5,6 +5,7 @@ import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
 import frappeui from 'frappe-ui/vite'
 const frappeUI = await import('frappe-ui/vite');
+import { VitePWA } from 'vite-plugin-pwa'
 
 
 export default defineConfig({
@@ -13,6 +14,30 @@ export default defineConfig({
     vue(),
     Components(),
     Icons({ compiler: 'vue3' }),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg', 'robots.txt'],
+      manifest: {
+        name: 'Nama Aplikasi',
+        short_name: 'App',
+        start_url: '/',
+        display: 'standalone',
+        background_color: '#ffffff',
+        theme_color: '#42b883',
+        icons: [
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
+    })
   ],
 
   server: {

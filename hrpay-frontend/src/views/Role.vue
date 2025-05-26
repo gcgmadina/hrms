@@ -12,9 +12,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="role in roles" :key="role.name" class="hover:bg-gray-50">
-          <td class="px-4 py-2 border-b">{{ role.name }}</td>
-          <td class="px-4 py-2 border-b">{{ role.name }}</td>
+        <tr v-for="role in roles" :key="role.role_profile" class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b">{{ role.role_profile }}</td>
+          <td class="px-4 py-2 border-b">{{ role.idx }}</td>
           <td class="px-4 py-2 border-b">
             {{ role.disabled ? 'Inactive' : 'Active' }}
           </td>

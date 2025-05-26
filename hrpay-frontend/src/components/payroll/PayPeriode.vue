@@ -1,18 +1,15 @@
 <template>
   <div class="container">
-    <button
-      @click="$emit('goBack')"
-      class="mb-4 px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-xl shadow"
-      >
-    </button>
-
-    <h2>Payroll Period History</h2>
+  <h2 class="text-xl font-bold mb-4">Payroll Period History</h2>
+  
+  <div class="table-responsive">
     <table>
       <thead>
         <tr>
           <th>Period Name</th>
           <th>Start Date</th>
           <th>End Date</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -20,9 +17,20 @@
           <td>{{ periode.period_name }}</td>
           <td>{{ periode.period_date_start }}</td>
           <td>{{ periode.period_date_end }}</td>
+        <td class="px-4 py-2">
+          <router-link
+            v-if="!periode.is_processed"
+            :to="{ path: '/payroll-entry', query: { period: periode.name } }"
+            class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+          >
+            Create Payroll
+          </router-link>
+          <span v-else class="text-green-600 font-semibold">Processed</span>
+        </td>
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </template>
 
@@ -69,24 +77,13 @@ export default {
 </script>
 
 <style>
-.container {
-  max-width: 600px;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+.action-link {
+    color: #0084ff;
+    text-decoration: none;
+    font-weight: 500;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-th {
-  background-color: #f4f4f4;
+
+.action-link:hover {
+    text-decoration: underline;
 }
 </style>
