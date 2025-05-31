@@ -10,6 +10,8 @@
       <li><router-link to="/payroll">💰 Payroll</router-link></li>
       <li><router-link to="/holiday">🎉 Holiday</router-link></li>
       <li><router-link to="/manage-role">⚙️ Manage Role</router-link></li>
+      <li><router-link to="/manage-role">⚙️ HR Manager</router-link></li>
+      <li><router-link to="/manage-role">⚙️ HR</router-link></li>
     </ul>
       <!-- Komponen Setup Perusahaan -->
     <!-- <CompanySetup /> -->

@@ -1,19 +1,17 @@
 <template>
   <header class="navbar">
-    <input type="text" placeholder="Cari..." v-model="searchQuery" @input="handleSearch" />
+    
+    <button @click="logoutInsideIframe">Logout</button>
   </header>
-  <button @click="$emit('logout')">Logout</button>
+    
 </template>
 
 <script setup>
-import { ref } from "vue";
 
-const searchQuery = ref("");
-
-const handleSearch = () => {
-  console.log("Pencarian:", searchQuery.value);
-  // Tambahkan logika pencarian di sini
-};
+function logoutInsideIframe() {
+  localStorage.clear();
+  window.location.href = 'http://localhost:8080';
+}
 </script>
 
 <style scoped>

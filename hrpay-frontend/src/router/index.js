@@ -19,14 +19,20 @@ import CompanyProfile from "../views/CompanyProfile.vue"
 import CompanySetup from "../components/CompanySetup.vue"
 import HolidayForm from "../components/Holiday.vue"
 // mobile
-// import DashApp from '../views/mobile/DashApp.vue';
+import DashApp from 'http://localhost:8080/src/views/mobile/chiefother/DashboardApp.vue';
+import RiwayatLeaveReq from 'http://localhost:8080/src/views/mobile/chiefother/LeaveRequestRiwayat.vue';
+import DetailLeaveReq from 'http://localhost:8080/src/views/mobile/chiefother/LeaveRequestDetail.vue';
+
 // import LeaveHistory from '../views/mobile/LeaveHistory.vue';
-// import LoginApp from '../views/mobile/LoginApp.vue';
 // import SalaryHistory from '../views/mobile/SalaryHistory.vue';
 
+const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
 const routes = [
-    { path: '/login', component: Login },
+    { path: '/login', component: isMobile
+        ? () => import('@/views/mobile/LoginApp.vue')
+        : () => import('@/views/Login.vue')
+     },
     { path: '/', component: Layout,
     children: [
         { path: '', redirect: '/dashboard' }, // default ke dashboard
@@ -46,13 +52,23 @@ const routes = [
         { path: 'pph21', component: PPh21 },
         { path: 'attendance-request', component: AttendanceReq },
         { path: 'company-profile', component: CompanyProfile },
-        { path: 'company-setup/:companyName', name: 'CompanySetup', component: CompanySetup }
-    ]
-    }
+        { path: 'company-setup/:companyName', name: 'CompanySetup', component: CompanySetup },  
 
-    // { path: "/dashApp", component: DashApp},
+      ]
+    },
+
+    { path: '/mobile', 
+    children: [
+     
+        { path: "/mobile/chief-other/dashboard", component: DashApp},
+        { path: "/mobile/chief-other/leave-request", component: RiwayatLeaveReq},
+        { path: "/mobile/chief-other/leave-request/detaiil/:name", component: DetailLeaveReq},
+        
+      ]
+    },
+
+    
     // { path: "/leavehist", component: LeaveHistory},
-    // { path: "/loginapp", component: LoginApp},
     // { path: "/salaryhist", component: SalaryHistory}
 ]
 

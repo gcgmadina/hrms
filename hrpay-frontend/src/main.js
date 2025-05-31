@@ -4,6 +4,7 @@ import router from "./router"; // Pastikan router.js ada
 import highlight from './directives/highlight.js'
 import './style.css';
 import '@/assets/style.css';
+import './registerServiceWorker'
 
 const app = createApp(App);
 app.use(router);

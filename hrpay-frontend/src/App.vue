@@ -1,19 +1,19 @@
 <template>
-  <router-view />
+    <router-view /> <!-- Tempat halaman utama -->
 </template>
 
 <script setup>
-import { ref, onMounted ,onUpdated } from "vue";
+import { ref, onMounted, onUpdated } from "vue";
+import * as hljs from "highlight.js";
+import "highlight.js/styles/github.css";
 
-
-import * as hljs from 'highlight.js'
-import 'highlight.js/styles/github.css' // ganti dengan tema lain kalau mau
+// import Layout from "./components/Layout.vue"; // Memastikan path benar
 
 const highlightAll = () => {
-  document.querySelectorAll('pre code').forEach((el) => {
-    hljs.highlightElement(el)
-  })
-}
+  document.querySelectorAll("pre code").forEach((el) => {
+    hljs.highlightElement(el);
+  });
+};
 
 const isLoggedIn = ref(false);
 
@@ -24,7 +24,8 @@ onMounted(() => {
   isLoggedIn.value = status === "true";
   console.log("Status Login di App.vue:", isLoggedIn.value); // Debugging lagi
 
-  highlightAll()
+  highlightAll();
 });
-onUpdated(highlightAll) 
+
+onUpdated(highlightAll);
 </script>
