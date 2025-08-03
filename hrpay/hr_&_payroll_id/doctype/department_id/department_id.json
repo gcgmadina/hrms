@@ -7,6 +7,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "department_id",
   "department_name",
   "department_status"
  ],
@@ -25,11 +26,16 @@
    "label": "Status",
    "options": "Active\nInactive",
    "reqd": 1
+  },
+  {
+   "fieldname": "department_id",
+   "fieldtype": "Data",
+   "label": "ID"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-30 16:16:30.692125",
+ "modified": "2025-06-04 00:01:59.240356",
  "modified_by": "Administrator",
  "module": "HR & Payroll ID",
  "name": "Department ID",

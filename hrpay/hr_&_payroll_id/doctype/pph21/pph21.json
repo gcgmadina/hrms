@@ -10,9 +10,9 @@
   "id",
   "full_name",
   "marital_status",
-  "dependents_count",
-  "taxable_income",
-  "tax_amount"
+  "category",
+  "tariff",
+  "status"
  ],
  "fields": [
   {
@@ -37,29 +37,27 @@
    "reqd": 1
   },
   {
-   "fieldname": "dependents_count",
-   "fieldtype": "Int",
-   "label": "Dependents Count",
-   "options": "automated fetch from Employee ID"
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category"
   },
   {
-   "fieldname": "taxable_income",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Taxable Income",
-   "options": "based on attendance and structure",
+   "fieldname": "tariff",
+   "fieldtype": "Int",
+   "label": "PPh21 Tariff",
    "reqd": 1
   },
   {
-   "fieldname": "tax_amount",
-   "fieldtype": "Currency",
-   "label": "PPh21 Amount",
-   "options": "automated fetch from Taxable Income"
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-30 17:47:19.315808",
+ "modified": "2025-06-04 13:26:05.937533",
  "modified_by": "Administrator",
  "module": "HR & Payroll ID",
  "name": "PPh21",

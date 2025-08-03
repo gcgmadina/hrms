@@ -19,7 +19,8 @@
   "leave_bal",
   "description",
   "leave_approver",
-  "attachment"
+  "attachment",
+  "status"
  ],
  "fields": [
   {
@@ -102,11 +103,17 @@
    "fieldtype": "Data",
    "label": "Approver",
    "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "Status",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-10 18:10:53.646258",
+ "modified": "2025-06-04 00:07:25.019556",
  "modified_by": "Administrator",
  "module": "HR & Payroll ID",
  "name": "Leave Request",

@@ -7,8 +7,10 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "id",
   "component_name",
   "type",
+  "amount",
   "is_tax_applicable",
   "depends_on_payments_day",
   "round_to_the_nearest_int",
@@ -69,12 +71,24 @@
    "label": "Status",
    "options": "Enable\nDisable",
    "reqd": 1
+  },
+  {
+   "fieldname": "id",
+   "fieldtype": "Data",
+   "label": "ID"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Float",
+   "label": "Amount",
+   "options": "_is percentage",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-05-01 14:26:29.068679",
+ "modified": "2025-06-04 11:45:16.227209",
  "modified_by": "Administrator",
  "module": "HR & Payroll ID",
  "name": "Salary Component ID",

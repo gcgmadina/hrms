@@ -29,3 +29,24 @@ export const getAttendanceSummary = async () => {
         return []; // Mengembalikan array kosong jika terjadi error
     }
 };
+
+// Fungsi untuk check-in dengan koordinat
+export async function checkInAttendance(latitude, longitude) {
+  try {
+    const response = await fetch("/api/method/hrpay.api.absensi.check_in", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Jika kamu sudah login pakai session, ini cukup.
+        // Kalau pakai API Key, tambahkan Authorization header di sini.
+      },
+      body: JSON.stringify({ latitude, longitude }),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Gagal check-in:", error);
+    throw error;
+  }
+};

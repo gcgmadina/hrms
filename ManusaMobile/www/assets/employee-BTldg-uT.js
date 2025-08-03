@@ -1,0 +1,1 @@
+const r="https://localhost:8000",n=async(t="",o="")=>{try{const e=await fetch(`${r}/get_employee_list?position=${t}&department=${o}`,{credentials:"include"});if(!e.ok)throw new Error("Failed to fetch employees");return(await e.json()).message}catch(e){return console.error("Error fetching employees:",e),[]}};export{n as getEmployees};

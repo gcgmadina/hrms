@@ -7,6 +7,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "id",
   "period_name",
   "period_date_start",
   "period_date_end"
@@ -31,11 +32,16 @@
    "fieldtype": "Date",
    "label": "End",
    "reqd": 1
+  },
+  {
+   "fieldname": "id",
+   "fieldtype": "Data",
+   "label": "ID"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-03 15:14:56.156383",
+ "modified": "2025-06-04 11:54:50.155131",
  "modified_by": "Administrator",
  "module": "HR & Payroll ID",
  "name": "Payroll Periode",
