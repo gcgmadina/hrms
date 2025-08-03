@@ -56,7 +56,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import AttendanceReqApp from '@/components/AttendanceReqApp.vue'
+import AttendanceReqApp from '@/components/mobile/AttendanceReqApp.vue'
 
 const router = useRouter()
 

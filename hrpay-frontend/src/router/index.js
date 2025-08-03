@@ -8,17 +8,18 @@ import Attendance from '../views/Attendance.vue';
 import HolidayList from '../views/HolidayList.vue';
 import Payroll from '../views/Payroll.vue';
 import Role from "../views/Role.vue";
-import RoleForm from "../components/RoleForm.vue"
+import RoleForm from "../components/RoleForm.vue";
 import Profile from "../views/Profile.vue";
-import EmployeeForm from "../components/EmployeeForm.vue"
+import EmployeeForm from "../components/EmployeeForm.vue";
 import LeaveReq from "../components/LeaveRequests.vue";
-import PayrollHist from "../components/payroll/PayrollHist.vue"
-import PPh21 from "../components/pph21/Pph21.vue"
-import AttendanceReq from "../components/AttendanceReq.vue"
-import CompanyProfile from "../views/CompanyProfile.vue"
-import CompanySetup from "../components/CompanySetup.vue"
-import HolidayForm from "../components/Holiday.vue"
+import PayrollHist from "../components/payroll/PayrollHist.vue";
+import PPh21 from "../components/pph21/Pph21.vue";
+import AttendanceReq from "../components/AttendanceReq.vue";
+import CompanyProfile from "../views/CompanyProfile.vue";
+import CompanySetup from "../components/CompanySetup.vue";
+import HolidayForm from "../components/Holiday.vue";
 // mobile
+import DashEmployee from "../components/mobile/dashboard/EmployeeDashboard.vue";
 import DashApp from 'http://localhost:8080/src/views/mobile/chiefother/DashboardApp.vue';
 import RiwayatLeaveReq from 'http://localhost:8080/src/views/mobile/chiefother/LeaveRequestRiwayat.vue';
 import DetailLeaveReq from 'http://localhost:8080/src/views/mobile/chiefother/LeaveRequestDetail.vue';
@@ -59,7 +60,7 @@ const routes = [
 
     { path: '/mobile', 
     children: [
-     
+        { path: "/mobile/employee/dashboard", component: DashEmployee},
         { path: "/mobile/chief-other/dashboard", component: DashApp},
         { path: "/mobile/chief-other/leave-request", component: RiwayatLeaveReq},
         { path: "/mobile/chief-other/leave-request/detaiil/:name", component: DetailLeaveReq},
