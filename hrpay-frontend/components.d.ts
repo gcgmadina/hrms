@@ -24,6 +24,7 @@ declare module 'vue' {
     EmployeeDashboard: typeof import('./src/components/mobile/dashboard/EmployeeDashboard.vue')['default']
     EmployeeForm: typeof import('./src/components/EmployeeForm.vue')['default']
     EmployeeList: typeof import('./src/components/EmployeeList.vue')['default']
+    FaceReq: typeof import('./src/components/mobile/FaceReq.vue')['default']
     Header: typeof import('./src/components/mobile/dashboard/layout/Header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Holiday: typeof import('./src/components/Holiday.vue')['default']
