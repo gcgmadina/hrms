@@ -7,6 +7,9 @@
 
     <!-- Table Pengajuan -->
     <div class="box">
+
+
+      
       <h3>Data Pengajuan Cuti</h3>
       <input
         v-model="searchQuery"
@@ -69,6 +72,8 @@
 </template>
 
 <script setup>
+
+
 import AppHeader from '@/components/mobile/dashboard/layout/Header.vue'
 import { ref, onMounted, computed } from 'vue'
 import { createResource } from 'frappe-ui'

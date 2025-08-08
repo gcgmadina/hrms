@@ -82,7 +82,7 @@ function goToLeaveForm() {
   router.push('/leave-request-form')
 }
 function goToPayroll() {
-  router.push('/payroll-history')
+  router.push('/mobile/employee/payroll-history')
 }
 function goToDashboard() {
   router.push('/employee-dashboard')

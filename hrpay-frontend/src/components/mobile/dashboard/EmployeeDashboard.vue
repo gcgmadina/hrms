@@ -81,13 +81,13 @@ function goToLeaveForm() {
   router.push('/leave-request-form')
 }
 function goToPayroll() {
-  router.push('/payroll-history')
+  router.push('/mobile/employee/payroll-history')
 }
 function goToDashboard() {
-  router.push('/employee-dashboard')
+  router.push('/mobile/employee/dashboard')
 }
 function goToLeaveHistory() {
-  router.push('/leave-history')
+  router.push('/mobile/employee/leave-history')
 }
 function showProfile() {
   // Future feature

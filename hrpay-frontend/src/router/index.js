@@ -20,9 +20,13 @@ import CompanySetup from "../components/CompanySetup.vue";
 import HolidayForm from "../components/Holiday.vue";
 // mobile
 import DashEmployee from "../components/mobile/dashboard/EmployeeDashboard.vue";
+import PayrollEmployee from "../components/mobile/dashboard/SalaryHist.vue";
+import PayrollDetailEmployee from "../components/mobile/dashboard/SalaryHist.vue";
+import LeaveHistory from "../components/mobile/dashboard/LeaveHist.vue";
 import DashApp from 'http://localhost:8080/src/views/mobile/chiefother/DashboardApp.vue';
 import RiwayatLeaveReq from 'http://localhost:8080/src/views/mobile/chiefother/LeaveRequestRiwayat.vue';
 import DetailLeaveReq from 'http://localhost:8080/src/views/mobile/chiefother/LeaveRequestDetail.vue';
+import FormLeaveReq from 'http://localhost:8080/src/views/mobile/chiefother/LeaveRequestForm.vue';
 
 // import LeaveHistory from '../views/mobile/LeaveHistory.vue';
 // import SalaryHistory from '../views/mobile/SalaryHistory.vue';
@@ -61,10 +65,14 @@ const routes = [
     { path: '/mobile', 
     children: [
         { path: "/mobile/employee/dashboard", component: DashEmployee},
+         { path: "/mobile/employee/payroll-history", component: PayrollEmployee},
+        { path: "/mobile/employee/payroll-history/detaiil/:name", component: PayrollDetailEmployee},
+         { path: "/mobile/employee/leave-history", component: LeaveHistory},
+
         { path: "/mobile/chief-other/dashboard", component: DashApp},
         { path: "/mobile/chief-other/leave-request", component: RiwayatLeaveReq},
-        { path: "/mobile/chief-other/leave-request/detaiil/:name", component: DetailLeaveReq},
-        
+        { path: "/mobile/chief-other/leave-request/detaiil/:id", component: DetailLeaveReq},
+        { path: "/mobile/chief-other/leave-request/form", component: FormLeaveReq},
       ]
     },
 
