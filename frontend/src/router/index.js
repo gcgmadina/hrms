@@ -9,7 +9,17 @@ import salarySlipRoutes from "./salary_slips"
 const routes = [
 	{
 		path: "/",
-		redirect: "/home",
+		redirect: (to) => {
+			// Domain-based routing untuk root path
+			const currentDomain = window.location.hostname
+			const isManusaDomain = currentDomain.includes("gcgmanusa.id")
+			
+			if (isManusaDomain) {
+				return "/home"
+			} else {
+				return "/select-app"
+			}
+		},
 	},
 	{
 		path: "/",
@@ -17,7 +27,11 @@ const routes = [
 		children: [
 			{
 				path: "",
-				redirect: "/home",
+				redirect: (to) => {
+					const currentDomain = window.location.hostname
+					const isManusaDomain = currentDomain.includes("gcgmanusa.id")
+					return isManusaDomain ? "/home" : "/select-app"
+				},
 			},
 			{
 				path: "/home",
@@ -45,6 +59,11 @@ const routes = [
 		path: "/login",
 		name: "Login",
 		component: () => import("@/views/Login.vue"),
+	},
+	{
+		path: "/select-app",
+		name: "SelectApp",
+		component: () => import("@/views/SelectApp.vue"),
 	},
 	{
 		path: "/profile",

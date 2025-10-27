@@ -138,7 +138,17 @@ router.beforeEach(async (to, _, next) => {
 			// next({ name: "InvalidEmployee" })
 			window.location.href = "/app"
 		} else if (to.name === "Login") {
-			next({ name: "Home" })
+			// Domain-based routing logic
+			const currentDomain = window.location.hostname
+			const isManusaDomain = currentDomain.includes("gcgmanusa.id")
+
+			if (isManusaDomain) {
+				// Jika domain manusa.id, langsung ke Home
+				next({ name: "Home" })
+			} else {
+				// Jika domain lain, ke SelectApp
+				next({ name: "SelectApp" })
+			}
 		} else {
 			next()
 		}
