@@ -2,7 +2,7 @@
 	<!-- Install PWA dialog -->
 	<Dialog v-model="showDialog">
 		<template #body-title>
-			<h2 class="text-lg font-bold">Install GCG Manusa</h2>
+			<h2 class="text-lg font-bold">{{ installTitle }}</h2>
 		</template>
 		<template #body-content>
 			<p>Get the app on your device for easy access & a better experience!</p>
@@ -25,7 +25,7 @@
 					class="flex flex-row text-center items-center justify-between mb-1 px-3"
 				>
 					<span class="text-base text-gray-900 font-bold">
-						Install GCG Manusa
+						{{ installTitle }}
 					</span>
 					<span class="inline-flex items-baseline">
 						<FeatherIcon
@@ -56,6 +56,9 @@
 import { ref } from "vue"
 
 import { Dialog, Popover, FeatherIcon } from "frappe-ui"
+import { useBranding } from "@/composables/branding"
+
+const { installTitle } = useBranding()
 
 // Initialize deferredPrompt for use later to show browser install prompt.
 const deferredPrompt = ref(null)

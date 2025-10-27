@@ -34,7 +34,7 @@
 							</div>
 							<div class="text-left">
 								<div class="text-xl font-bold text-white">Aplikasi Kasir</div>
-								<div class="text-sm text-blue-100">POS Awesome</div>
+								<div class="text-sm text-blue-100">Transaksi Penjualan</div>
 							</div>
 						</div>
 						<svg

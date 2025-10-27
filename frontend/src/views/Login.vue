@@ -4,7 +4,7 @@
 			<div class="flex h-screen w-screen flex-col justify-center bg-white">
 				<div class="flex flex-col mx-auto gap-3 items-center">
 					<!-- <FrappeHRLogo class="h-8 w-8" /> -->
-					<div class="text-3xl font-semibold text-gray-900 text-center">Login to GCG Manusa</div>
+					<div class="text-3xl font-semibold text-gray-900 text-center">{{ loginTitle }}</div>
 				</div>
 
 				<div class="mx-auto mt-10 w-full px-8 sm:w-96">
@@ -91,6 +91,7 @@ import { inject, reactive, ref } from "vue"
 import { Input, Button, ErrorMessage, Dialog } from "frappe-ui"
 
 import FrappeHRLogo from "@/components/icons/FrappeHRLogo.vue"
+import { useBranding } from "@/composables/branding"
 
 const email = ref(null)
 const password = ref(null)
@@ -108,6 +109,7 @@ const otp = reactive({
 })
 
 const session = inject("$session")
+const { loginTitle } = useBranding()
 
 async function submit(e) {
 	try {
