@@ -2,7 +2,7 @@ import { computed } from "vue"
 
 export function useBranding() {
 	const currentDomain = window.location.hostname
-	const isManusaDomain = currentDomain.includes("gcgmanusa.id")
+	const isManusaDomain = currentDomain.includes("gcgmanusa.id") || currentDomain.includes("gcgsalus.id")
 
 	const branding = computed(() => {
 		if (isManusaDomain) {

@@ -12,7 +12,7 @@ const routes = [
 		redirect: (to) => {
 			// Domain-based routing untuk root path
 			const currentDomain = window.location.hostname
-			const isManusaDomain = currentDomain.includes("gcgmanusa.id")
+			const isManusaDomain = currentDomain.includes("gcgmanusa.id") || currentDomain.includes("gcgsalus.id")
 			
 			if (isManusaDomain) {
 				return "/home"
@@ -29,7 +29,7 @@ const routes = [
 				path: "",
 				redirect: (to) => {
 					const currentDomain = window.location.hostname
-					const isManusaDomain = currentDomain.includes("gcgmanusa.id")
+					const isManusaDomain = currentDomain.includes("gcgmanusa.id") || currentDomain.includes("gcgsalus.id")
 					return isManusaDomain ? "/home" : "/select-app"
 				},
 			},

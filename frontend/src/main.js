@@ -140,7 +140,7 @@ router.beforeEach(async (to, _, next) => {
 		} else if (to.name === "Login") {
 			// Domain-based routing logic
 			const currentDomain = window.location.hostname
-			const isManusaDomain = currentDomain.includes("gcgmanusa.id")
+			const isManusaDomain = currentDomain.includes("gcgmanusa.id") || currentDomain.includes("gcgsalus.id")
 
 			if (isManusaDomain) {
 				// Jika domain manusa.id, langsung ke Home
